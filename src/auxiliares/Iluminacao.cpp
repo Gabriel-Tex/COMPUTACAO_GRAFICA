@@ -89,5 +89,8 @@ Cor CorResultante(Ponto Pt, Vetor n, Ray ray, Propriedades prop,
     return Intensidade_observada;
 }
 
+Cor operator*(Cor cor, float X){
+    return Cor(cor.r * X, cor.g * X, cor.b * X);
+}
 
 

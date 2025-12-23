@@ -31,3 +31,35 @@ bool IntersecaoRayPlano(Plano plano, Ray ray, float &ti){
         return true;}
     return false;
 }
+
+void Plano::setTextura(Textura* tex) {
+    textura = tex;
+    temTextura = (tex != nullptr);
+}
+
+Cor Plano::getCorTextura(const Ponto& Pt) const {
+    if (!temTextura || textura == nullptr) {
+        return prop.Kdif; // Retorna cor difusa padrão
+    }
+    
+    // Calcular coordenadas de textura no plano
+    // Assumindo que o plano está alinhado com eixos
+    
+    if (fabs(n.y) > 0.9f) { // Plano horizontal (chão/teto)
+        float u = (Pt.x - P_pi.x) / 100.0f; // Escala
+        float v = (Pt.z - P_pi.z) / 100.0f;
+        return textura->amostrarRepetir(u, v);
+    }
+    else if (fabs(n.x) > 0.9f) { // Plano vertical em x
+        float u = (Pt.y - P_pi.y) / 100.0f;
+        float v = (Pt.z - P_pi.z) / 100.0f;
+        return textura->amostrarRepetir(u, v);
+    }
+    else if (fabs(n.z) > 0.9f) { // Plano vertical em z
+        float u = (Pt.x - P_pi.x) / 100.0f;
+        float v = (Pt.y - P_pi.y) / 100.0f;
+        return textura->amostrarRepetir(u, v);
+    }
+    
+    return prop.Kdif; // Fallback
+}

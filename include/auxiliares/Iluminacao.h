@@ -50,4 +50,6 @@ Cor arroba(Cor A, Cor B);
 Cor CorResultante(Ponto Pt, Vetor n, Ray ray, Propriedades prop,
     IluminacaoCena iluminacao, int m, int objeto);
 
+Cor operator*(Cor cor, float X);
+
 #endif

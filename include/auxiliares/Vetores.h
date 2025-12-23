@@ -34,6 +34,9 @@ Vetor operator*(const Vetor &V, const float &u);
 // produto escalar entre dois vetores
 float produto_escalar(Vetor V1, Vetor V2);
 
+// produto vetorial entre dois vetores
+Vetor produto_vetorial(Vetor V1, Vetor V2);
+
 // ||v|| = sqrt(x^2 + y^2 + z^2)
 // normalização: v/||v||
 Vetor normalizar(Vetor V);

@@ -5,7 +5,7 @@
 #include "./auxiliares/Iluminacao.h"
 #include "./auxiliares/Ray.h"
 #include "./auxiliares/Vetores.h"
-#include "./objetos/Plano.h"
+#include "Plano.h"
 #include <cmath>
 #include <algorithm>
 #include <vector>
