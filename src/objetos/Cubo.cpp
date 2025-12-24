@@ -75,10 +75,8 @@ bool IntersecaoRayCubo(Cubo cubo, Ray ray, float &ti) {
 
 Vetor normalCubo(Cubo cubo, Ponto p) {
     
-    // Vetor do centro do cubo até o ponto
     Vetor v = p - cubo.centro;
     
-    // Encontra a componente com maior valor absoluto
     float absX = fabs(v.x);
     float absY = fabs(v.y);
     float absZ = fabs(v.z);

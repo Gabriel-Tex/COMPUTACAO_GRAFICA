@@ -109,10 +109,8 @@ void Camera::moverCima(float distancia) {
 }
 
 void Camera::rotacionarEmY(float anguloGraus) {
-    // Rotação horizontal (ao redor do eixo Y)
     float anguloRad = anguloGraus * M_PI / 180.0f;
     
-    // Rotacionar o vetor frente no plano XZ
     float cosA = cos(anguloRad);
     float sinA = sin(anguloRad);
     
@@ -121,29 +119,23 @@ void Camera::rotacionarEmY(float anguloGraus) {
     novaFrente.y = frente.y;
     novaFrente.z = -frente.x * sinA + frente.z * cosA;
     
-    // Atualizar alvo baseado na nova direção
     alvo = olho + (novaFrente * distanciaFocal);
     atualizarSistemaCoordenadas();
 }
 
 void Camera::rotacionarEmX(float anguloGraus) {
-    // Rotação vertical
     float anguloRad = anguloGraus * M_PI / 180.0f;
     
-    // Matriz de rotação em X
     float cosA = cos(anguloRad);
     float sinA = sin(anguloRad);
     
-    // Rotacionar frente e up
     Vetor novaFrente;
     novaFrente.x = frente.x;
     novaFrente.y = frente.y * cosA - frente.z * sinA;
     novaFrente.z = frente.y * sinA + frente.z * cosA;
     
-    // Normalizar e limitar ângulo 
     novaFrente = normalizar(novaFrente);
     
-    // Limitar pitch para evitar gimbal lock
     float maxPitch = 85.0f * M_PI / 180.0f;
     float pitchAtual = asin(novaFrente.y);
     

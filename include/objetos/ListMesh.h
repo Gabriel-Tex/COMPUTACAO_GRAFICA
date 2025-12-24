@@ -17,14 +17,11 @@ public:
     
     void addTriangulo(const Triangulo& t);
     
-    // Getter
     const std::vector<Triangulo>& getTriangulos() const { return triangulos; }
     
-    // Função de interseção
     bool intersecta(Ray ray, float &ti, Triangulo*& tri_hit) const;
 };
 
-// função de interseção mesh
 bool IntersecaoRayListMesh(const ListMesh& mesh, Ray ray, float& ti, Triangulo*& tri_hit);
 
 #endif

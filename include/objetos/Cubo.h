@@ -23,17 +23,13 @@ public:
     
     // ============== MÉTODOS ASSOCIOADOS AO CUBO ==============
 
-    // verificar interseção
     bool intersecta(Ray ray, float &ti, Triangulo*& tri_hit) const;
     
-    // normal
     Vetor normalNoPonto(Ponto p) const;
     
-    // getter para a mesh
     const ListMesh& getMesh() const { return mesh; }
 };
 
-// Funções de interseção
 bool IntersecaoRayCubo(Cubo cubo, Ray ray, float &ti);
 Vetor normalCubo(Cubo cubo, Ponto p);
 
