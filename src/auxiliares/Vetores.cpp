@@ -28,8 +28,20 @@ Vetor operator*(const Vetor &V, const float &u){
     return Vetor(V.x * u, V.y * u, V.z * u);
 }
 
+Vetor operator*(const float &u, const Vetor &V){
+    return Vetor(V.x * u, V.y * u, V.z * u);
+}
+
 Ponto operator+(const Vetor &V, const Ponto &U){
     return Ponto(V.x + U.x, V.y + U.y, V.z + U.z);
+}
+
+Ponto operator+(const Ponto &U, const Vetor &V){
+    return Ponto(V.x + U.x, V.y + U.y, V.z + U.z);
+}
+
+Vetor operator+(const Vetor &V, const Vetor &U){
+    return Vetor(V.x + U.x, V.y + U.y, V.z + U.z);
 }
 
 // produto escalar entre dois vetores

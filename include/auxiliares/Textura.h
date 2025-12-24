@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 
+// ============== DEFINIÇÃO DA CLASSE ==============
 class Textura {
 private:
     int width, height, channels;
@@ -17,6 +18,8 @@ public:
     Textura();
     ~Textura();
     
+    // ============== MÉTODOS ASSOCIOADOS À TEXTURA ==============
+
     // Carrega uma textura de arquivo
     bool carregar(const std::string& caminho);
     

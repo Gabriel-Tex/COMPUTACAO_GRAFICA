@@ -93,4 +93,6 @@ Cor operator*(Cor cor, float X){
     return Cor(cor.r * X, cor.g * X, cor.b * X);
 }
 
-
+Cor operator*(float X, Cor cor){
+    return Cor(cor.r * X, cor.g * X, cor.b * X);
+}

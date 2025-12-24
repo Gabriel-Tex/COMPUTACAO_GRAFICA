@@ -52,4 +52,6 @@ Cor CorResultante(Ponto Pt, Vetor n, Ray ray, Propriedades prop,
 
 Cor operator*(Cor cor, float X);
 
+Cor operator*(float X, Cor cor);
+
 #endif

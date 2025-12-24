@@ -7,6 +7,8 @@
 #include "ListMesh.h"
 #include "Triangulo.h"
 
+// ============== DEFINIÇÃO DA CLASSE ==============
+
 class Cubo {
 public:
 
@@ -15,16 +17,19 @@ public:
     int m;
     Ponto centro;
     float lado;
-    
+
+    // construtor
     Cubo(Ponto centro, float lado, Propriedades prop, int m);
     
-    // Método para verificar interseção
+    // ============== MÉTODOS ASSOCIOADOS AO CUBO ==============
+
+    // verificar interseção
     bool intersecta(Ray ray, float &ti, Triangulo*& tri_hit) const;
     
-    // Método para obter normal (delega para o triângulo)
+    // normal
     Vetor normalNoPonto(Ponto p) const;
     
-    // Getter para a mesh (opcional)
+    // getter para a mesh
     const ListMesh& getMesh() const { return mesh; }
 };
 

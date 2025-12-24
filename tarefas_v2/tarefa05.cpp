@@ -362,7 +362,7 @@ int main(){
     }
 
     // gerar aquivo ppm
-    ofstream arquivo("output/tarefa05/tarefa05_v2.ppm");
+    ofstream arquivo("output/tarefa05/tarefa05.ppm");
     arquivo << "P3\n" << canvas.nCol << " " << canvas.nLin << "\n255\n";
     for (size_t L = 0; L < canvas.nLin; L++)
     {

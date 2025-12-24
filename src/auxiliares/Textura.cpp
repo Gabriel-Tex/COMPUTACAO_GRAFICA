@@ -11,7 +11,6 @@
 Textura::Textura() : width(0), height(0), channels(0), carregada(false) {}
 
 Textura::~Textura() {
-    // stb_image libera memória automaticamente quando usamos stbi_load
     data.clear();
 }
 

@@ -18,7 +18,7 @@ public:
     Triangulo(Ponto A, Ponto B, Ponto C, Vetor n, Propriedades prop, int m);
 
 private:
-    // Função auxiliar para cálculo de coordenadas baricêntricas
+    // função auxiliar para cálculo de coordenadas baricêntricas
     bool estaDentroTriangulo(const Ponto& P) const;
 };
 

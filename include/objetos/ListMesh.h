@@ -6,6 +6,8 @@
 #include "./auxiliares/Vetores.h"
 #include "Triangulo.h"
 
+// ============== DEFINIÇÃO DA CLASSE ==============
+
 class ListMesh {
 private:
     std::vector<Triangulo> triangulos;
@@ -22,7 +24,7 @@ public:
     bool intersecta(Ray ray, float &ti, Triangulo*& tri_hit) const;
 };
 
-// Função de interseção (mantida para compatibilidade)
+// função de interseção mesh
 bool IntersecaoRayListMesh(const ListMesh& mesh, Ray ray, float& ti, Triangulo*& tri_hit);
 
 #endif

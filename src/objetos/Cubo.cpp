@@ -63,8 +63,6 @@ bool Cubo::intersecta(Ray ray, float &ti, Triangulo*& tri_hit) const {
 }
 
 Vetor Cubo::normalNoPonto(Ponto p) const {
-    // Esta função pode ser implementada se necessário
-    // Para simplificar, retornamos uma normal padrão
     return Vetor(0, 1, 0);
 }
 
@@ -76,9 +74,6 @@ bool IntersecaoRayCubo(Cubo cubo, Ray ray, float &ti) {
 }
 
 Vetor normalCubo(Cubo cubo, Ponto p) {
-    // Para obter a normal correta do cubo, precisamos saber qual face foi atingida
-    // Esta é uma implementação simplificada
-    // Em uma implementação completa, precisaríamos passar o triângulo atingido
     
     // Vetor do centro do cubo até o ponto
     Vetor v = p - cubo.centro;

@@ -23,7 +23,7 @@ bool ListMesh::intersecta(Ray ray, float &ti, Triangulo*& tri_hit) const {
         if (IntersecaoRayTriangulo(tri, ray, t_aux)) {
             if (t_aux < ti) {
                 ti = t_aux;
-                tri_hit = (Triangulo*)&tri; // Cuidado: isso retorna um ponteiro para const
+                tri_hit = (Triangulo*)&tri; 
                 hit = true;
             }
         }

@@ -29,7 +29,13 @@ Vetor operator-(const Vetor &V);
 
 Ponto operator+(const Vetor &V, const Ponto &U);
 
+Ponto operator+( const Ponto &U, const Vetor &V);
+
+Vetor operator+(const Vetor &V, const Vetor &U);
+
 Vetor operator*(const Vetor &V, const float &u);
+
+Vetor operator*(const float &u, const Vetor &V);
 
 // produto escalar entre dois vetores
 float produto_escalar(Vetor V1, Vetor V2);
