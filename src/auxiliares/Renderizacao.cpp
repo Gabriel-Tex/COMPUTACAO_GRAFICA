@@ -152,3 +152,25 @@ void Renderiza::listarObjetos(const std::vector<std::unique_ptr<Objeto>>& objeto
                   << " (ID: " << objetos[i]->getId() << ")" << std::endl;
     }
 }
+
+
+Cor Renderiza::calcularIluminacaoParaObjeto(const IntersecaoResultado& intersecao,
+                                           const Ray& raioOriginal,
+                                           const IluminacaoCena& iluminacao,
+                                           const std::vector<std::unique_ptr<Objeto>>& objetos,
+                                           float EPS) {
+    
+    if (intersecao.objeto->getNome() == "ObjetoComplexo" || 
+        intersecao.objeto->getId() == -1) {
+        
+        float t_min = std::numeric_limits<float>::max();
+        Objeto* componenteAtingido = nullptr;
+        Ponto pontoComponente;
+        
+        return calcularCorFinal(intersecao, raioOriginal, iluminacao, objetos, EPS);
+        
+    } else {
+    
+        return calcularCorFinal(intersecao, raioOriginal, iluminacao, objetos, EPS);
+    }
+}

@@ -67,6 +67,14 @@ public:
                                const IluminacaoCena& iluminacao,
                                const std::vector<std::unique_ptr<Objeto>>& objetos,
                                float EPS = 1e-4f);
+
+    static Cor calcularIluminacaoParaObjeto(const IntersecaoResultado& intersecao,
+                                        const Ray& raioOriginal,
+                                        const IluminacaoCena& iluminacao,
+                                        const std::vector<std::unique_ptr<Objeto>>& objetos,
+                                        float EPS = 1e-4f);
 };
+
+
 
 #endif
