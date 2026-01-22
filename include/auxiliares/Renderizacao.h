@@ -1,5 +1,5 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef RENDERIZACAO_H
+#define RENDERIZACAO_H
 
 #include "auxiliares/Ray.h"
 #include "auxiliares/Iluminacao.h"
@@ -21,7 +21,7 @@ struct IntersecaoResultado {
     }
 };
 
-class Utils {
+class Renderiza {
 public:
     static bool encontrarIntersecaoMaisProxima(const Ray& ray,
                                               const std::vector<std::unique_ptr<Objeto>>& objetos,

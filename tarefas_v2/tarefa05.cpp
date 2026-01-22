@@ -4,7 +4,7 @@
 #include "auxiliares/Canvas.h"
 #include "auxiliares/Iluminacao.h"
 #include "auxiliares/Textura.h"
-#include "auxiliares/Utils.h"  
+#include "auxiliares/Renderizacao.h"  
 #include "objetos/Objeto.h"
 #include "objetos/Esfera.h"
 #include "objetos/Plano.h"
@@ -171,7 +171,7 @@ int main() {
     // =========== RENDERIZAÇÃO ===========
     vector<vector<Cor>> canvasArray(canvas.nLin, vector<Cor>(canvas.nCol, canvas.bgColor));
     
-    Utils::listarObjetos(objetos);
+    Renderiza::listarObjetos(objetos);
     
     // Loop principal de renderização
     for (size_t L = 0; L < canvas.nLin; L++) {
@@ -179,9 +179,9 @@ int main() {
             Ray ray = camera.gerarRaioParaPixel(L, C, canvas);
             
             IntersecaoResultado intersecao;
-            if (Utils::encontrarIntersecaoMaisProxima(ray, objetos, intersecao, EPS)) {
+            if (Renderiza::encontrarIntersecaoMaisProxima(ray, objetos, intersecao, EPS)) {
                 // Calcular cor final com tratamento automático de textura
-                Cor corFinal = Utils::calcularCorFinal(intersecao, ray, iluminacao, objetos, EPS);
+                Cor corFinal = Renderiza::calcularCorFinal(intersecao, ray, iluminacao, objetos, EPS);
                 canvasArray[L][C] = corFinal;
             }
         }

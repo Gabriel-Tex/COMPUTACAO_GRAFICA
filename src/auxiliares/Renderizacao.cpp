@@ -1,8 +1,8 @@
-#include "auxiliares/Utils.h"
+#include "auxiliares/Renderizacao.h"
 #include <iostream>
 #include <cmath>
 
-bool Utils::encontrarIntersecaoMaisProxima(const Ray& ray,
+bool Renderiza::encontrarIntersecaoMaisProxima(const Ray& ray,
                                                     const std::vector<std::unique_ptr<Objeto>>& objetos,
                                                     IntersecaoResultado& resultado,
                                                     float EPS) {
@@ -26,7 +26,7 @@ bool Utils::encontrarIntersecaoMaisProxima(const Ray& ray,
     return false;
 }
 
-bool Utils::verificarSombra(const Ponto& ponto,
+bool Renderiza::verificarSombra(const Ponto& ponto,
                                      const Vetor& normal,
                                      const Vetor& direcaoLuz,
                                      const std::vector<std::unique_ptr<Objeto>>& objetos,
@@ -45,7 +45,7 @@ bool Utils::verificarSombra(const Ponto& ponto,
     return false;
 }
 
-Cor Utils::calcularIluminacaoComSombra(const Ponto& ponto,
+Cor Renderiza::calcularIluminacaoComSombra(const Ponto& ponto,
                                                 const Vetor& normal,
                                                 const Ray& raioOriginal,
                                                 const Propriedades& props,
@@ -69,7 +69,7 @@ Cor Utils::calcularIluminacaoComSombra(const Ponto& ponto,
                         iluminacaoAjustada, material, idObjeto);
 }
 
-Cor Utils::calcularIluminacaoComSombraeTextura(const Ponto& ponto,
+Cor Renderiza::calcularIluminacaoComSombraeTextura(const Ponto& ponto,
                                                      const Vetor& normal,
                                                      const Ray& raioOriginal,
                                                      const Propriedades& props,
@@ -92,7 +92,7 @@ Cor Utils::calcularIluminacaoComSombraeTextura(const Ponto& ponto,
                         iluminacaoAjustada, material, 0);
 }
 
-Objeto* Utils::encontrarObjetoMaisProximo(const Ray& ray,
+Objeto* Renderiza::encontrarObjetoMaisProximo(const Ray& ray,
                                                    const std::vector<std::unique_ptr<Objeto>>& objetos,
                                                    float& t_min,
                                                    Ponto& ponto_int,
@@ -118,7 +118,7 @@ Objeto* Utils::encontrarObjetoMaisProximo(const Ray& ray,
     return obj_mais_proximo;
 }
 
-Cor Utils::calcularCorFinal(const IntersecaoResultado& intersecao,
+Cor Renderiza::calcularCorFinal(const IntersecaoResultado& intersecao,
                                      const Ray& raioOriginal,
                                      const IluminacaoCena& iluminacao,
                                      const std::vector<std::unique_ptr<Objeto>>& objetos,
@@ -145,7 +145,7 @@ Cor Utils::calcularCorFinal(const IntersecaoResultado& intersecao,
     }
 }
 
-void Utils::listarObjetos(const std::vector<std::unique_ptr<Objeto>>& objetos) {
+void Renderiza::listarObjetos(const std::vector<std::unique_ptr<Objeto>>& objetos) {
     std::cout << "Cena com " << objetos.size() << " objetos:" << std::endl;
     for (size_t i = 0; i < objetos.size(); i++) {
         std::cout << "  " << i << ". " << objetos[i]->getNome() 
