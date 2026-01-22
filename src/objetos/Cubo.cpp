@@ -11,7 +11,6 @@ Cubo::Cubo(Ponto centro, float lado, Propriedades prop, int m)
 }
 
 void Cubo::inicializarMesh() {
-    // Usando seu código existente para criar os triângulos
     float h = lado / 2.0f;
     
     Ponto v0(centro.x - h, centro.y - h, centro.z - h);
@@ -57,13 +56,11 @@ void Cubo::inicializarMesh() {
 }
 
 bool Cubo::intersecta(const Ray& ray, float& ti) const {
-    // Usando sua função existente via ListMesh
     Triangulo* tri_hit = nullptr;
     return mesh.intersecta(ray, ti, tri_hit);
 }
 
 Vetor Cubo::calcularNormal(const Ponto& p) const {
-    // Usando sua função normalCubo adaptada
     Vetor v = p - centro;
     
     float absX = fabs(v.x);
@@ -97,11 +94,9 @@ int Cubo::getId() const {
 
 Cor Cubo::getCorTextura(const Ponto& ponto) const {
     if (temTexturaFlag && textura != nullptr) {
-        // Mapeamento básico de textura para cubo
         Vetor v = ponto - centro;
         float h = lado / 2.0f;
         
-        // Determinar qual face está mais próxima
         float absX = fabs(v.x);
         float absY = fabs(v.y);
         float absZ = fabs(v.z);

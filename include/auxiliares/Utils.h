@@ -1,16 +1,14 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "objetos/Objeto.h"
 #include "auxiliares/Ray.h"
 #include "auxiliares/Iluminacao.h"
+#include "objetos/Objeto.h"
 #include <vector>
 #include <memory>
 #include <limits>
+#include <string>
 
-#define M_PI 3.14159265358979323846
-
-// Estrutura para resultado de interseção
 struct IntersecaoResultado {
     float t = std::numeric_limits<float>::max();
     Objeto* objeto = nullptr;
@@ -23,16 +21,13 @@ struct IntersecaoResultado {
     }
 };
 
-// Funções utilitárias para a cena
 class Utils {
 public:
-    // Encontra a interseção mais próxima
     static bool encontrarIntersecaoMaisProxima(const Ray& ray,
                                               const std::vector<std::unique_ptr<Objeto>>& objetos,
                                               IntersecaoResultado& resultado,
                                               float EPS = 1e-4f);
     
-    // Verifica se há sombra
     static bool verificarSombra(const Ponto& ponto,
                                const Vetor& normal,
                                const Vetor& direcaoLuz,
@@ -40,7 +35,6 @@ public:
                                float distanciaLuz,
                                float EPS = 1e-4f);
     
-    // Calcula iluminação com sombras
     static Cor calcularIluminacaoComSombra(const Ponto& ponto,
                                           const Vetor& normal,
                                           const Ray& raioOriginal,
@@ -51,8 +45,28 @@ public:
                                           int idObjeto,
                                           float EPS = 1e-4f);
     
-    // Função auxiliar para debug
+    static Cor calcularIluminacaoComSombraeTextura(const Ponto& ponto,
+                                               const Vetor& normal,
+                                               const Ray& raioOriginal,
+                                               const Propriedades& props,
+                                               const IluminacaoCena& iluminacao,
+                                               const std::vector<std::unique_ptr<Objeto>>& objetos,
+                                               int material,
+                                               float EPS = 1e-4f);
+    
+    static Objeto* encontrarObjetoMaisProximo(const Ray& ray,
+                                             const std::vector<std::unique_ptr<Objeto>>& objetos,
+                                             float& t_min,
+                                             Ponto& ponto_int,
+                                             float EPS = 1e-4f);
+    
     static void listarObjetos(const std::vector<std::unique_ptr<Objeto>>& objetos);
+    
+    static Cor calcularCorFinal(const IntersecaoResultado& intersecao,
+                               const Ray& raioOriginal,
+                               const IluminacaoCena& iluminacao,
+                               const std::vector<std::unique_ptr<Objeto>>& objetos,
+                               float EPS = 1e-4f);
 };
 
 #endif

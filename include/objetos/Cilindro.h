@@ -21,10 +21,8 @@ private:
     int id;
     
 public:
-    // Construtor mantendo compatibilidade
     Cilindro(Ponto CB, float rbCil, float altura, Vetor dcil, Propriedades prop, int m);
     
-    // Métodos da interface Objeto
     bool intersecta(const Ray& ray, float& t) const override;
     Vetor calcularNormal(const Ponto& ponto) const override;
     Propriedades getPropriedades() const override;
@@ -32,18 +30,15 @@ public:
     std::string getNome() const override;
     int getId() const override;
     
-    // Métodos de textura
     Cor getCorTextura(const Ponto& ponto) const override;
     bool temTextura() const override;
     void setTextura(Textura* tex) override;
     
-    // Getters específicos
     Ponto getBase() const { return CB; }
     float getRaio() const { return rbCil; }
     float getAltura() const { return altura; }
     Vetor getDirecao() const { return dcil; }
     
-    // Funções auxiliares (para compatibilidade)
     bool verificarAltura(const Ponto& ponto) const;
     Ponto calcularTopo() const;
 };

@@ -11,7 +11,7 @@ class Esfera : public Objeto {
 private:
     float rEsfera;
     Ponto cEsfera;
-    Cor cor;  // Cor base (do seu construtor original)
+    Cor cor;  
     Propriedades propriedades_esfera;
     int m_esfera;
     Textura* textura;
@@ -20,10 +20,9 @@ private:
     int id;
     
 public:
-    // Construtor mantendo compatibilidade com seu código
+
     Esfera(float raio, Ponto centro, Cor cor, Propriedades propriedades, int m);
     
-    // Métodos da interface Objeto
     bool intersecta(const Ray& ray, float& ti) const override;
     Vetor calcularNormal(const Ponto& ponto) const override;
     Propriedades getPropriedades() const override;
@@ -31,17 +30,14 @@ public:
     std::string getNome() const override;
     int getId() const override;
     
-    // Métodos de textura
     Cor getCorTextura(const Ponto& ponto) const override;
     bool temTextura() const override;
     void setTextura(Textura* tex) override;
     
-    // Getters específicos (para compatibilidade)
     float getRaio() const { return rEsfera; }
     Ponto getCentro() const { return cEsfera; }
     Cor getCor() const { return cor; }
     
-    // Setters
     void setCor(const Cor& novaCor) { cor = novaCor; }
 };
 

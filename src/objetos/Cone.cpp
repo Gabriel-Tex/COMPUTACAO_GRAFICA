@@ -13,7 +13,6 @@ Cone::Cone(Ponto CB, float rbCone, float altura, Vetor dco, Propriedades prop, i
 }
 
 bool Cone::intersecta(const Ray& ray, float& t) const {
-    // Usando sua função IntersecaoRayCone adaptada
     Ponto vertice = getVertice();
     float razao = calcularRazao();
     
@@ -43,7 +42,6 @@ bool Cone::intersecta(const Ray& ray, float& t) const {
         if (h2 >= 0 && h2 <= altura) ts_validos.push_back(t2);
     }
     
-    // Verificar base
     float t_base;
     Plano plano_base(CB, dco, prop, m);
     if (plano_base.intersecta(ray, t_base)) {
@@ -60,16 +58,13 @@ bool Cone::intersecta(const Ray& ray, float& t) const {
 }
 
 Vetor Cone::calcularNormal(const Ponto& P) const {
-    // Usando sua função normalCone adaptada
     Ponto vertice = getVertice();
     
-    // Verificar base
     float h_base = produto_escalar(P - CB, -dco);
     if (fabs(h_base) < 1e-4 && comprimento(P - CB) <= rbCone) {
         return -dco;
     }
     
-    // Superfície lateral
     Vetor lateral = P - vertice;
     Vetor proj(lateral.x - dco.x * produto_escalar(lateral, dco),
                lateral.y - dco.y * produto_escalar(lateral, dco),
@@ -96,20 +91,16 @@ int Cone::getId() const {
 
 Cor Cone::getCorTextura(const Ponto& ponto) const {
     if (temTexturaFlag && textura != nullptr) {
-        // Implementação básica de mapeamento de textura para cone
         Ponto vertice = getVertice();
         Vetor vetorPonto = ponto - vertice;
         
-        // Verificar se está na base
         Vetor vetorBase = ponto - CB;
         if (fabs(produto_escalar(vetorBase, dco)) < 1e-4f) {
-            // Mapeamento planar para a base
             float u = (vetorBase.x / (2 * rbCone)) + 0.5f;
             float v = (vetorBase.z / (2 * rbCone)) + 0.5f;
             return textura->amostrar(u, v);
         }
         
-        // Para superfície lateral
         float h = produto_escalar(vetorPonto, dco);
         Vetor projecao = dco * h;
         Ponto pontoNoEixo = vertice + projecao;
@@ -119,7 +110,6 @@ Cor Cone::getCorTextura(const Ponto& ponto) const {
             radial = normalizar(radial);
         }
         
-        // Calcular ângulo
         Vetor referencia;
         if (fabs(dco.x) > fabs(dco.y)) {
             referencia = Vetor(dco.z, 0, -dco.x);
@@ -134,7 +124,7 @@ Cor Cone::getCorTextura(const Ponto& ponto) const {
         }
         
         float u = angulo / (2 * M_PI);
-        float v = (altura + h) / altura; // h é negativo (distância do vértice)
+        float v = (altura + h) / altura; 
         
         return textura->amostrar(u, v);
     }

@@ -1,5 +1,5 @@
 #include "objetos/Cilindro.h"
-#include "objetos/Plano.h" // Para usar Plano nas tampas
+#include "objetos/Plano.h" 
 #include <cmath>
 #include <algorithm>
 #include <vector>
@@ -13,7 +13,6 @@ Cilindro::Cilindro(Ponto CB, float rbCil, float altura, Vetor dcil, Propriedades
 }
 
 bool Cilindro::intersecta(const Ray& ray, float& t) const {
-    // Usando sua função IntersecaoRayCilindro adaptada
     Vetor w = ray.P_0 - CB;
     
     float a = produto_escalar(ray.dr, ray.dr) - pow(produto_escalar(ray.dr, dcil), 2);
@@ -40,7 +39,6 @@ bool Cilindro::intersecta(const Ray& ray, float& t) const {
         if (h2 >= 0 && h2 <= altura) ts_validos.push_back(t2);
     }
     
-    // Verificar tampas (adaptado do seu código)
     Plano base(CB, -dcil, prop, m);
     float t_base;
     if (base.intersecta(ray, t_base)) {
@@ -67,7 +65,6 @@ bool Cilindro::intersecta(const Ray& ray, float& t) const {
 }
 
 Vetor Cilindro::calcularNormal(const Ponto& P) const {
-    // Usando sua função normalCilindro adaptada
     float h = produto_escalar(P - CB, dcil);
     
     if (h >= -1e-4 && h <= 1e-4) {
@@ -102,7 +99,6 @@ int Cilindro::getId() const {
 
 Cor Cilindro::getCorTextura(const Ponto& ponto) const {
     if (temTexturaFlag && textura != nullptr) {
-        // Implementação básica de mapeamento de textura para cilindro
         Vetor vetorPonto = ponto - CB;
         float h = produto_escalar(vetorPonto, dcil);
         Vetor projecao = dcil * h;
@@ -113,7 +109,6 @@ Cor Cilindro::getCorTextura(const Ponto& ponto) const {
             radial = normalizar(radial);
         }
         
-        // Calcular ângulo
         Vetor referencia;
         if (fabs(dcil.x) > fabs(dcil.y)) {
             referencia = Vetor(dcil.z, 0, -dcil.x);

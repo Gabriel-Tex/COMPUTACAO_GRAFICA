@@ -21,10 +21,8 @@ private:
     int id;
     
 public:
-    // Construtor mantendo compatibilidade
     Cone(Ponto CB, float rbCone, float altura, Vetor dco, Propriedades prop, int m);
     
-    // Métodos da interface Objeto
     bool intersecta(const Ray& ray, float& t) const override;
     Vetor calcularNormal(const Ponto& ponto) const override;
     Propriedades getPropriedades() const override;
@@ -32,12 +30,10 @@ public:
     std::string getNome() const override;
     int getId() const override;
     
-    // Métodos de textura
     Cor getCorTextura(const Ponto& ponto) const override;
     bool temTextura() const override;
     void setTextura(Textura* tex) override;
     
-    // Getters específicos
     Ponto getBase() const { return CB; }
     float getRaioBase() const { return rbCone; }
     float getAltura() const { return altura; }

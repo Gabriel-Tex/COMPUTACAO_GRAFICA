@@ -2,7 +2,6 @@
 #include <cmath>
 #include <iostream>
 
-// Inicializar contador estático
 int Esfera::nextId = 0;
 
 Esfera::Esfera(float raio, Ponto centro, Cor cor, Propriedades propriedades, int m)
@@ -13,7 +12,6 @@ Esfera::Esfera(float raio, Ponto centro, Cor cor, Propriedades propriedades, int
 }
 
 bool Esfera::intersecta(const Ray& ray, float& ti) const {
-    // Reutilizando sua função original
     Vetor w = ray.P_0 - cEsfera;
     
     float a = produto_escalar(ray.dr, ray.dr);
@@ -57,16 +55,14 @@ int Esfera::getId() const {
 
 Cor Esfera::getCorTextura(const Ponto& ponto) const {
     if (temTexturaFlag && textura != nullptr) {
-        // Mapeamento esférico básico
         Vetor normal = calcularNormal(ponto);
         
-        // Converter para coordenadas UV
         float u = 0.5f + (std::atan2(normal.z, normal.x) / (2 * M_PI));
         float v = 0.5f - (std::asin(normal.y) / M_PI);
         
         return textura->amostrar(u, v);
     }
-    return cor; // Retorna cor base se não houver textura
+    return cor; 
 }
 
 bool Esfera::temTextura() const {

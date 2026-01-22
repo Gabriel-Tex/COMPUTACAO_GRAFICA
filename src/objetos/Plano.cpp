@@ -10,7 +10,6 @@ Plano::Plano(Ponto P, Vetor N, Propriedades propriedades, int m)
 }
 
 bool Plano::intersecta(const Ray& ray, float& ti) const {
-    // Usando sua função original
     float denominador = produto_escalar(ray.dr, n);
     
     if (fabs(denominador) < 1e-6) {
@@ -28,7 +27,7 @@ bool Plano::intersecta(const Ray& ray, float& ti) const {
 }
 
 Vetor Plano::calcularNormal(const Ponto& ponto) const {
-    (void)ponto; // Para plano infinito, a normal é constante
+    (void)ponto; 
     return n;
 }
 
@@ -53,7 +52,6 @@ Cor Plano::getCorTextura(const Ponto& Pt) const {
         return prop.Kdif;
     }
     
-    // Usando sua função existente para compatibilidade
     return getCorTexturaPt(Pt);
 }
 
@@ -71,7 +69,6 @@ Cor Plano::getCorTexturaPt(const Ponto& Pt) const {
         return prop.Kdif;
     }
     
-    // Usando seu código existente
     if (fabs(n.y) > 0.9f) {
         float u = (Pt.x - P_pi.x) / 100.0f;
         float v = (Pt.z - P_pi.z) / 100.0f;

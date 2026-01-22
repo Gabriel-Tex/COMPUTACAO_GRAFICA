@@ -17,10 +17,8 @@ private:
     int id;
     
 public:
-    // Construtor mantendo compatibilidade
     Plano(Ponto P, Vetor N, Propriedades propriedades, int m);
     
-    // Métodos da interface Objeto
     bool intersecta(const Ray& ray, float& ti) const override;
     Vetor calcularNormal(const Ponto& ponto) const override;
     Propriedades getPropriedades() const override;
@@ -28,16 +26,13 @@ public:
     std::string getNome() const override;
     int getId() const override;
     
-    // Métodos de textura
     Cor getCorTextura(const Ponto& ponto) const override;
     bool temTextura() const override;
     void setTextura(Textura* tex) override;
     
-    // Getters específicos
     Ponto getPonto() const { return P_pi; }
     Vetor getNormal() const { return n; }
     
-    // Método para compatibilidade com seu código existente
     Cor getCorTexturaPt(const Ponto& Pt) const;
 };
 
