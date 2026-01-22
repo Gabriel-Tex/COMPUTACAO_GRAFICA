@@ -3,25 +3,25 @@
 
 
 Camera::Camera() 
-    : olho(0, 0, 0), 
-      alvo(0, 0, -1), 
-      vetorUp(0, 1, 0),
+    : eye(0, 0, 0), 
+      AtPoint(0, 0, -1), 
+      UpPoint(0, 1, 0),
       distanciaFocal(30.0f),
       janela(60.0f, 60.0f, 30.0f) {
     atualizarSistemaCoordenadas();
 }
 
-Camera::Camera(const Ponto& olho, const Ponto& alvo, const Vetor& up, 
+Camera::Camera(const Ponto& eye, const Ponto& AtPoint, const Vetor& up, 
                float distanciaFocal, const Janela& janela)
-    : olho(olho), alvo(alvo), vetorUp(up), 
+    : eye(eye), AtPoint(AtPoint), UpPoint(up), 
       distanciaFocal(distanciaFocal), janela(janela) {
     atualizarSistemaCoordenadas();
 }
 
 void Camera::lookAt(const Ponto& novoOlho, const Ponto& novoAlvo, const Vetor& up) {
-    olho = novoOlho;
-    alvo = novoAlvo;
-    vetorUp = up;
+    eye = novoOlho;
+    AtPoint = novoAlvo;
+    UpPoint = up;
     atualizarSistemaCoordenadas();
 }
 
@@ -34,9 +34,9 @@ void Camera::setDistanciaFocal(float dist) {
 }
 
 void Camera::atualizarSistemaCoordenadas() {
-    frente = normalizar(alvo - olho);
+    frente = normalizar(AtPoint - eye);
     
-    direita = normalizar(produto_vetorial(frente, vetorUp));
+    direita = normalizar(produto_vetorial(frente, UpPoint));
     acima = normalizar(produto_vetorial(direita, frente));
 }
 
@@ -53,13 +53,13 @@ Ray Camera::gerarRaio(float u, float v) const {
     
     Ponto pontoJanela = calcularPontoJanela(u, v);
     
-    Vetor direcao = normalizar(pontoJanela - olho);
+    Vetor direcao = normalizar(pontoJanela - eye);
     
-    return Ray(olho, direcao);
+    return Ray(eye, direcao);
 }
 
 Ponto Camera::calcularPontoJanela(float u, float v) const {
-    Ponto centroJanela = (frente * distanciaFocal) + olho;
+    Ponto centroJanela = (frente * distanciaFocal) + eye;
     
     float deslocX = u * janela.wJ;
     float deslocY = v * janela.hJ;
@@ -72,8 +72,8 @@ Ponto Camera::calcularPontoJanela(float u, float v) const {
 // ============== MOVIMENTAÇÃO DA CÂMERA ==============
 
 void Camera::mover(const Vetor& deslocamento) {
-    olho = deslocamento + olho;
-    alvo = deslocamento + alvo;
+    eye = deslocamento + eye;
+    AtPoint = deslocamento + AtPoint;
     atualizarSistemaCoordenadas();
 }
 
@@ -88,7 +88,7 @@ void Camera::rotacionar(float anguloX, float anguloY) {
     novoFrente.y = frente.y;
     novoFrente.z = -frente.x * sinY + frente.z * cosY;
     
-    alvo = (novoFrente * distanciaFocal) + olho;
+    AtPoint = (novoFrente * distanciaFocal) + eye;
     
     atualizarSistemaCoordenadas();
 }
@@ -119,7 +119,7 @@ void Camera::rotacionarEmY(float anguloGraus) {
     novaFrente.y = frente.y;
     novaFrente.z = -frente.x * sinA + frente.z * cosA;
     
-    alvo = olho + (novaFrente * distanciaFocal);
+    AtPoint = eye + (novaFrente * distanciaFocal);
     atualizarSistemaCoordenadas();
 }
 
@@ -140,7 +140,7 @@ void Camera::rotacionarEmX(float anguloGraus) {
     float pitchAtual = asin(novaFrente.y);
     
     if (fabs(pitchAtual) < maxPitch) {
-        alvo = olho + (novaFrente * distanciaFocal);
+        AtPoint = eye + (novaFrente * distanciaFocal);
         atualizarSistemaCoordenadas();
     }
 }

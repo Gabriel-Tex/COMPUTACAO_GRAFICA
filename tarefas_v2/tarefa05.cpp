@@ -1,6 +1,5 @@
 /*  Compilação: 
- g++ -std=c++17 -Iinclude src/auxiliares/*.cpp src/objetos/*.cpp tarefas/tarefa05.cpp 
- -o output/tarefa05/tarefa05.exe
+ g++ -std=c++17 -Iinclude src/auxiliares/*.cpp src/objetos/*.cpp tarefas_v2/tarefa05.cpp -o output/tarefa05/tarefa05.exe
     Execução:
 .\output\tarefa05\tarefa05.exe
 */

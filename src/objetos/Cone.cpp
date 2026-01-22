@@ -1,29 +1,27 @@
 #include "objetos/Cone.h"
-using namespace std;
+#include "objetos/Plano.h"
+#include <cmath>
+#include <algorithm>
+#include <vector>
 
-// ============== CLASSE ==============
-Cone::Cone(Ponto CB, float rbCone, float altura, Vetor dco, Propriedades prop, int m){
-    this->CB = CB;
-    this->rbCone = rbCone;
-    this->altura = altura;
-    this->dco = dco;
-    this->prop = prop;
-    this->m = m;
+int Cone::nextId = 0;
+
+Cone::Cone(Ponto CB, float rbCone, float altura, Vetor dco, Propriedades prop, int m)
+    : CB(CB), rbCone(rbCone), altura(altura), dco(normalizar(dco)), 
+      prop(prop), m(m), textura(nullptr), temTexturaFlag(false) {
+    id = nextId++;
 }
 
-// ============== MÉTODOS ASSOCIADOS A CONE ==============
-                                    // a origem tem de ser corrigida
-bool IntersecaoRayCone(Cone cone, Ray ray, float &t) {
-    Ponto vertice ( cone.CB.x + cone.dco.x * cone.altura,
-                    cone.CB.y + cone.dco.y * cone.altura,
-                    cone.CB.z + cone.dco.z * cone.altura); // Vértice do cone
-    float razao = cone.rbCone / cone.altura; // tan(θ)
+bool Cone::intersecta(const Ray& ray, float& t) const {
+    // Usando sua função IntersecaoRayCone adaptada
+    Ponto vertice = getVertice();
+    float razao = calcularRazao();
     
     Vetor w = ray.P_0 - vertice;
     
-    float a = produto_escalar(ray.dr, ray.dr) - (1 + razao*razao) * pow(produto_escalar(ray.dr, cone.dco), 2);
-    float b = 2 * (produto_escalar(ray.dr, w) - (1 + razao*razao) * produto_escalar(ray.dr, cone.dco) * produto_escalar(w, cone.dco));
-    float c = produto_escalar(w, w) - (1 + razao*razao) * pow(produto_escalar(w, cone.dco), 2);
+    float a = produto_escalar(ray.dr, ray.dr) - (1 + razao*razao) * pow(produto_escalar(ray.dr, dco), 2);
+    float b = 2 * (produto_escalar(ray.dr, w) - (1 + razao*razao) * produto_escalar(ray.dr, dco) * produto_escalar(w, dco));
+    float c = produto_escalar(w, w) - (1 + razao*razao) * pow(produto_escalar(w, dco), 2);
     
     float delta = b*b - 4*a*c;
     if (delta < 0) return false;
@@ -31,66 +29,131 @@ bool IntersecaoRayCone(Cone cone, Ray ray, float &t) {
     float t1 = (-b - sqrt(delta)) / (2*a);
     float t2 = (-b + sqrt(delta)) / (2*a);
     
-    vector<float> ts_validos;
+    std::vector<float> ts_validos;
     
-    // Verificar interseções com a superfície lateral
     if (t1 > 0) {
-        Ponto P1 (  ray.P_0.x + ray.dr.x * t1,
-                    ray.P_0.y + ray.dr.y * t1,
-                    ray.P_0.z + ray.dr.z * t1  );
-        float h1 = produto_escalar(P1 - cone.CB, cone.dco);
-        if (h1 >= 0 && h1 <= cone.altura) ts_validos.push_back(t1);
+        Ponto P1 = ray.P_0 + (ray.dr * t1);
+        float h1 = produto_escalar(P1 - CB, dco);
+        if (h1 >= 0 && h1 <= altura) ts_validos.push_back(t1);
     }
     
     if (t2 > 0) {
-        Ponto P2 (  ray.P_0.x + ray.dr.x * t2,
-                    ray.P_0.y + ray.dr.y * t2,
-                    ray.P_0.z + ray.dr.z * t2  );
-        float h2 = produto_escalar(P2 - cone.CB, cone.dco);
-        if (h2 >= 0 && h2 <= cone.altura) ts_validos.push_back(t2);
+        Ponto P2 = ray.P_0 + (ray.dr * t2);
+        float h2 = produto_escalar(P2 - CB, dco);
+        if (h2 >= 0 && h2 <= altura) ts_validos.push_back(t2);
     }
     
-    // Verificar base do cone
+    // Verificar base
     float t_base;
-    Plano plano_base(cone.CB, cone.dco, cone.prop, cone.m);
-    if (IntersecaoRayPlano(plano_base, ray, t_base)) {
-        Ponto P_base (  ray.P_0.x + ray.dr.x * t_base,
-                        ray.P_0.y + ray.dr.y * t_base,
-                        ray.P_0.z + ray.dr.z * t_base  );
-        if (comprimento(P_base - cone.CB)<= cone.rbCone) {
+    Plano plano_base(CB, dco, prop, m);
+    if (plano_base.intersecta(ray, t_base)) {
+        Ponto P_base = ray.P_0 + (ray.dr * t_base);
+        if (comprimento(P_base - CB) <= rbCone) {
             ts_validos.push_back(t_base);
         }
     }
     
     if (ts_validos.empty()) return false;
     
-    t = *min_element(ts_validos.begin(), ts_validos.end());
+    t = *std::min_element(ts_validos.begin(), ts_validos.end());
     return true;
 }
 
-// NORMAL DO CONE NO PONTO P
-Vetor normalCone(Cone cone, Ponto P) {
-    Ponto vertice ( cone.CB.x + cone.dco.x * cone.altura,
-                    cone.CB.y + cone.dco.y * cone.altura,
-                    cone.CB.z + cone.dco.z * cone.altura );
+Vetor Cone::calcularNormal(const Ponto& P) const {
+    // Usando sua função normalCone adaptada
+    Ponto vertice = getVertice();
     
     // Verificar base
-    float h_base = produto_escalar(P - cone.CB, -cone.dco);
-    if (fabs(h_base) < 1e-4 && comprimento(P - cone.CB) <= cone.rbCone) {
-        return -cone.dco; // Normal da base
+    float h_base = produto_escalar(P - CB, -dco);
+    if (fabs(h_base) < 1e-4 && comprimento(P - CB) <= rbCone) {
+        return -dco;
     }
     
     // Superfície lateral
-    Ponto projecao (cone.CB.x + cone.dco.x * produto_escalar(P - cone.CB, cone.dco),
-                    cone.CB.y + cone.dco.y * produto_escalar(P - cone.CB, cone.dco),
-                    cone.CB.z + cone.dco.z * produto_escalar(P - cone.CB, cone.dco));
     Vetor lateral = P - vertice;
-    //Vetor eixo = cone.CB - vertice;
+    Vetor proj(lateral.x - dco.x * produto_escalar(lateral, dco),
+               lateral.y - dco.y * produto_escalar(lateral, dco),
+               lateral.z - dco.z * produto_escalar(lateral, dco));
     
-    // Projeção no plano perpendicular ao eixo
-    Vetor proj (lateral.x - cone.dco.x * produto_escalar(lateral, cone.dco),
-                lateral.y - cone.dco.y * produto_escalar(lateral, cone.dco),
-                lateral.z - cone.dco.z * produto_escalar(lateral, cone.dco));
-
     return normalizar(proj);
+}
+
+Propriedades Cone::getPropriedades() const {
+    return prop;
+}
+
+int Cone::getMaterial() const {
+    return m;
+}
+
+std::string Cone::getNome() const {
+    return "Cone";
+}
+
+int Cone::getId() const {
+    return id;
+}
+
+Cor Cone::getCorTextura(const Ponto& ponto) const {
+    if (temTexturaFlag && textura != nullptr) {
+        // Implementação básica de mapeamento de textura para cone
+        Ponto vertice = getVertice();
+        Vetor vetorPonto = ponto - vertice;
+        
+        // Verificar se está na base
+        Vetor vetorBase = ponto - CB;
+        if (fabs(produto_escalar(vetorBase, dco)) < 1e-4f) {
+            // Mapeamento planar para a base
+            float u = (vetorBase.x / (2 * rbCone)) + 0.5f;
+            float v = (vetorBase.z / (2 * rbCone)) + 0.5f;
+            return textura->amostrar(u, v);
+        }
+        
+        // Para superfície lateral
+        float h = produto_escalar(vetorPonto, dco);
+        Vetor projecao = dco * h;
+        Ponto pontoNoEixo = vertice + projecao;
+        Vetor radial = ponto - pontoNoEixo;
+        
+        if (comprimento(radial) > 1e-4f) {
+            radial = normalizar(radial);
+        }
+        
+        // Calcular ângulo
+        Vetor referencia;
+        if (fabs(dco.x) > fabs(dco.y)) {
+            referencia = Vetor(dco.z, 0, -dco.x);
+        } else {
+            referencia = Vetor(0, -dco.z, dco.y);
+        }
+        referencia = normalizar(referencia);
+        
+        float angulo = std::acos(produto_escalar(radial, referencia));
+        if (produto_escalar(produto_vetorial(referencia, radial), dco) < 0) {
+            angulo = 2 * M_PI - angulo;
+        }
+        
+        float u = angulo / (2 * M_PI);
+        float v = (altura + h) / altura; // h é negativo (distância do vértice)
+        
+        return textura->amostrar(u, v);
+    }
+    return prop.Kdif;
+}
+
+bool Cone::temTextura() const {
+    return temTexturaFlag;
+}
+
+void Cone::setTextura(Textura* tex) {
+    textura = tex;
+    temTexturaFlag = (tex != nullptr);
+}
+
+Ponto Cone::getVertice() const {
+    return CB + (dco * altura);
+}
+
+float Cone::calcularRazao() const {
+    return rbCone / altura;
 }

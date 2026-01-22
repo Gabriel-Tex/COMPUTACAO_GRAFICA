@@ -1,0 +1,38 @@
+#ifndef OBJETO_H
+#define OBJETO_H
+
+#include "./auxiliares/Ray.h"
+#include "./auxiliares/Pontos.h"
+#include "./auxiliares/Vetores.h"
+#include "./auxiliares/Iluminacao.h"
+#include "./auxiliares/Textura.h"
+#include <string>
+
+class Objeto {
+public:
+    virtual ~Objeto() = default;
+    
+    // Métodos virtuais puros
+    virtual bool intersecta(const Ray& ray, float& t) const = 0;
+    virtual Vetor calcularNormal(const Ponto& ponto) const = 0;
+    virtual Propriedades getPropriedades() const = 0;
+    virtual int getMaterial() const = 0;
+    virtual std::string getNome() const = 0;
+    virtual int getId() const = 0;
+    
+    // Métodos com implementação padrão
+    virtual Cor getCorTextura(const Ponto& ponto) const {
+        return getPropriedades().Kdif;
+    }
+    
+    virtual bool temTextura() const { return false; }
+    virtual void setTextura(Textura* tex) { (void)tex; }
+    
+    // Método auxiliar para sombras
+    virtual bool verificarIntersecaoSombra(const Ray& shadowRay, float distanciaLuz) const {
+        float t;
+        return intersecta(shadowRay, t) && t > 0 && t < distanciaLuz;
+    }
+};
+
+#endif

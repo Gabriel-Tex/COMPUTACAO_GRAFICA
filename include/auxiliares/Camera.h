@@ -1,4 +1,3 @@
-// include/auxiliares/Camera.h
 #ifndef CAMERA_H
 #define CAMERA_H
 
@@ -15,9 +14,9 @@
 
 class Camera {
 private:
-    Ponto olho;
-    Ponto alvo;
-    Vetor vetorUp;
+    Ponto eye;
+    Ponto AtPoint;
+    Vetor UpPoint;
     
     // Sistema de coordenadas da câmera
     Vetor frente, direita, acima;
@@ -29,19 +28,19 @@ private:
 public:
     // Construtores
     Camera();
-    Camera(const Ponto& olho, const Ponto& alvo, const Vetor& up, 
+    Camera(const Ponto& eye, const Ponto& AtPoint, const Vetor& up, 
            float distanciaFocal, const Janela& janela);
     
     // ============== MÉTODOS ASSOCIADOS À CÂMERA ==============
 
     // configuração
-    void lookAt(const Ponto& olho, const Ponto& alvo, const Vetor& up = Vetor(0, 1, 0));
+    void lookAt(const Ponto& eye, const Ponto& AtPoint, const Vetor& up = Vetor(0, 1, 0));
     void setJanela(const Janela& jan);
     void setDistanciaFocal(float dist);
     
     // acesso
-    Ponto getOlho() const { return olho; }
-    Ponto getAlvo() const { return alvo; }
+    Ponto getOlho() const { return eye; }
+    Ponto getAlvo() const { return AtPoint; }
     Vetor getFrente() const { return frente; }
     Vetor getDireita() const { return direita; }
     Vetor getAcima() const { return acima; }

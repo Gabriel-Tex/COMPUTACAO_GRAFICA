@@ -1,42 +1,79 @@
 #include "objetos/Esfera.h"
-using namespace std;
+#include <cmath>
+#include <iostream>
 
-// ============== CLASSE ==============
-Esfera::Esfera(float raio, Ponto centro, Cor cor, Propriedades propriedades, int m){
-    this->rEsfera = raio;
-    this->cEsfera = centro;
-    this->propriedades_esfera = propriedades;
-    this->m_esfera = m;
+// Inicializar contador estático
+int Esfera::nextId = 0;
+
+Esfera::Esfera(float raio, Ponto centro, Cor cor, Propriedades propriedades, int m)
+    : rEsfera(raio), cEsfera(centro), cor(cor), 
+      propriedades_esfera(propriedades), m_esfera(m),
+      textura(nullptr), temTexturaFlag(false) {
+    id = nextId++;
 }
 
-// ============== MÉTODOS ASSOCIADOS A ESFERA ==============
-
-bool IntersecaoRayEsfera(Esfera esfera, Ray ray, float &ti){
-    // vetor que vai da olho_do_pintor ao centro da esfera
-    Vetor w = ray.P_0 - esfera.cEsfera;
-
-    // coeficientes da equação da interseção
+bool Esfera::intersecta(const Ray& ray, float& ti) const {
+    // Reutilizando sua função original
+    Vetor w = ray.P_0 - cEsfera;
+    
     float a = produto_escalar(ray.dr, ray.dr);
-    float b = 2 * (produto_escalar(w, ray.dr));
-    float c = produto_escalar(w, w) - esfera.rEsfera * esfera.rEsfera;
-
+    float b = 2 * produto_escalar(w, ray.dr);
+    float c = produto_escalar(w, w) - rEsfera * rEsfera;
+    
     double delta = b*b - 4*a*c;
-
-    // se delta negativo, então o raio não intercepta a esfera
+    
     if(delta < 0) return false;
-
-    // calculando parâmetros de distância t1 e t2
+    
     float t1 = (-b + sqrt(delta)) / (2 * a);
     float t2 = (-b - sqrt(delta)) / (2 * a);
-
-    // os pontos de interseção estão na frente do olho
-    if (t1 > 0 && t2 > 0) ti = min(t1, t2); // escolhe a mais próxima   
-    // apenas P(t1) está na frente do olho
-    else if (t1 > 0) ti = t1; 
-    // apenas P(t2) está na frente do olho  
+    
+    if (t1 > 0 && t2 > 0) ti = std::min(t1, t2);
+    else if (t1 > 0) ti = t1;
     else if (t2 > 0) ti = t2;
-    // nem P(t1) nem P(t2) são observáveis   
-    else return false; 
-    // delta é não negativo e pelo menos um ponto de interseção é observável
+    else return false;
+    
     return true;
+}
+
+Vetor Esfera::calcularNormal(const Ponto& ponto) const {
+    return normalizar(ponto - cEsfera);
+}
+
+Propriedades Esfera::getPropriedades() const {
+    return propriedades_esfera;
+}
+
+int Esfera::getMaterial() const {
+    return m_esfera;
+}
+
+std::string Esfera::getNome() const {
+    return "Esfera";
+}
+
+int Esfera::getId() const {
+    return id;
+}
+
+Cor Esfera::getCorTextura(const Ponto& ponto) const {
+    if (temTexturaFlag && textura != nullptr) {
+        // Mapeamento esférico básico
+        Vetor normal = calcularNormal(ponto);
+        
+        // Converter para coordenadas UV
+        float u = 0.5f + (std::atan2(normal.z, normal.x) / (2 * M_PI));
+        float v = 0.5f - (std::asin(normal.y) / M_PI);
+        
+        return textura->amostrar(u, v);
+    }
+    return cor; // Retorna cor base se não houver textura
+}
+
+bool Esfera::temTextura() const {
+    return temTexturaFlag;
+}
+
+void Esfera::setTextura(Textura* tex) {
+    textura = tex;
+    temTexturaFlag = (tex != nullptr);
 }
