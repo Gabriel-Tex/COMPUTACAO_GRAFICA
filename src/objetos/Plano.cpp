@@ -1,12 +1,10 @@
 #include "objetos/Plano.h"
 #include <cmath>
 
-int Plano::nextId = 0;
-
 Plano::Plano(Ponto P, Vetor N, Propriedades propriedades, int m)
     : P_pi(P), n(normalizar(N)), prop(propriedades), m(m),
       textura(nullptr), temTexturaFlag(false) {
-    id = nextId++;
+    id = 0;
 }
 
 bool Plano::intersecta(const Ray& ray, float& ti) const {
@@ -86,4 +84,11 @@ Cor Plano::getCorTexturaPt(const Ponto& Pt) const {
     }
     
     return prop.Kdif;
+}
+
+// ========== IMPLEMENTAÇÕES DAS TRANSFORMAÇÕES ==========
+
+void Plano::transforma(const Matriz4x4& M) {
+    P_pi = M * P_pi;
+    n = normalizar(M * n);
 }

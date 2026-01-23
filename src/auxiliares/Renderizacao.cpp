@@ -3,18 +3,18 @@
 #include <cmath>
 
 bool Renderiza::encontrarIntersecaoMaisProxima(const Ray& ray,
-                                                    const std::vector<std::unique_ptr<Objeto>>& objetos,
+                                                    const vector<Objeto*>& objetos,
                                                     IntersecaoResultado& resultado,
                                                     float EPS) {
     
     resultado.reset();
     
-    for (const auto& obj : objetos) {
+    for (const auto& obj : objetos) { 
         float t_temp;
         if (obj->intersecta(ray, t_temp) && t_temp > EPS) {
             if (t_temp < resultado.t) {
                 resultado.t = t_temp;
-                resultado.objeto = obj.get();
+                resultado.objeto = obj;
             }
         }
     }
@@ -29,7 +29,7 @@ bool Renderiza::encontrarIntersecaoMaisProxima(const Ray& ray,
 bool Renderiza::verificarSombra(const Ponto& ponto,
                                      const Vetor& normal,
                                      const Vetor& direcaoLuz,
-                                     const std::vector<std::unique_ptr<Objeto>>& objetos,
+                                     const vector<Objeto*>& objetos,
                                      float distanciaLuz,
                                      float EPS) {
     
@@ -50,7 +50,7 @@ Cor Renderiza::calcularIluminacaoComSombra(const Ponto& ponto,
                                                 const Ray& raioOriginal,
                                                 const Propriedades& props,
                                                 const IluminacaoCena& iluminacao,
-                                                const std::vector<std::unique_ptr<Objeto>>& objetos,
+                                                const vector<Objeto*>& objetos,
                                                 int material,
                                                 int idObjeto,
                                                 float EPS) {
@@ -74,7 +74,7 @@ Cor Renderiza::calcularIluminacaoComSombraeTextura(const Ponto& ponto,
                                                      const Ray& raioOriginal,
                                                      const Propriedades& props,
                                                      const IluminacaoCena& iluminacao,
-                                                     const std::vector<std::unique_ptr<Objeto>>& objetos,
+                                                     const vector<Objeto*>& objetos,
                                                      int material,
                                                      float EPS) {
     
@@ -93,7 +93,7 @@ Cor Renderiza::calcularIluminacaoComSombraeTextura(const Ponto& ponto,
 }
 
 Objeto* Renderiza::encontrarObjetoMaisProximo(const Ray& ray,
-                                                   const std::vector<std::unique_ptr<Objeto>>& objetos,
+                                                   const vector<Objeto*>& objetos,
                                                    float& t_min,
                                                    Ponto& ponto_int,
                                                    float EPS) {
@@ -106,7 +106,7 @@ Objeto* Renderiza::encontrarObjetoMaisProximo(const Ray& ray,
         if (obj->intersecta(ray, t) && t > EPS) {
             if (t_min < 0 || t < t_min) {
                 t_min = t;
-                obj_mais_proximo = obj.get();
+                obj_mais_proximo = obj; 
             }
         }
     }
@@ -121,7 +121,7 @@ Objeto* Renderiza::encontrarObjetoMaisProximo(const Ray& ray,
 Cor Renderiza::calcularCorFinal(const IntersecaoResultado& intersecao,
                                      const Ray& raioOriginal,
                                      const IluminacaoCena& iluminacao,
-                                     const std::vector<std::unique_ptr<Objeto>>& objetos,
+                                     const vector<Objeto*>& objetos,
                                      float EPS) {
     
     Vetor normal = intersecao.objeto->calcularNormal(intersecao.ponto);
@@ -145,32 +145,10 @@ Cor Renderiza::calcularCorFinal(const IntersecaoResultado& intersecao,
     }
 }
 
-void Renderiza::listarObjetos(const std::vector<std::unique_ptr<Objeto>>& objetos) {
+void Renderiza::listarObjetos(const std::vector<Objeto*>& objetos) {
     std::cout << "Cena com " << objetos.size() << " objetos:" << std::endl;
     for (size_t i = 0; i < objetos.size(); i++) {
         std::cout << "  " << i << ". " << objetos[i]->getNome() 
                   << " (ID: " << objetos[i]->getId() << ")" << std::endl;
-    }
-}
-
-
-Cor Renderiza::calcularIluminacaoParaObjeto(const IntersecaoResultado& intersecao,
-                                           const Ray& raioOriginal,
-                                           const IluminacaoCena& iluminacao,
-                                           const std::vector<std::unique_ptr<Objeto>>& objetos,
-                                           float EPS) {
-    
-    if (intersecao.objeto->getNome() == "ObjetoComplexo" || 
-        intersecao.objeto->getId() == -1) {
-        
-        float t_min = std::numeric_limits<float>::max();
-        Objeto* componenteAtingido = nullptr;
-        Ponto pontoComponente;
-        
-        return calcularCorFinal(intersecao, raioOriginal, iluminacao, objetos, EPS);
-        
-    } else {
-    
-        return calcularCorFinal(intersecao, raioOriginal, iluminacao, objetos, EPS);
     }
 }

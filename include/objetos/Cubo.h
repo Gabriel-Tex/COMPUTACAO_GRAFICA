@@ -4,6 +4,7 @@
 #include "Objeto.h"
 #include "ListMesh.h"
 #include "Triangulo.h"
+#include "./auxiliares/Matrizes.h"
 #include "./auxiliares/Textura.h"
 #include <string>
 
@@ -16,7 +17,6 @@ private:
     ListMesh mesh;
     Textura* textura;
     bool temTexturaFlag;
-    static int nextId;
     int id;
     
 public:
@@ -37,6 +37,8 @@ public:
     float getLado() const { return lado; }
     
     Vetor normalNoPonto(Ponto p) const;
+
+    void transforma(const Matriz4x4& M);
     
 private:
     void inicializarMesh();

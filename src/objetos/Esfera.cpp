@@ -2,13 +2,11 @@
 #include <cmath>
 #include <iostream>
 
-int Esfera::nextId = 0;
-
 Esfera::Esfera(float raio, Ponto centro, Cor cor, Propriedades propriedades, int m)
     : rEsfera(raio), cEsfera(centro), cor(cor), 
       propriedades_esfera(propriedades), m_esfera(m),
       textura(nullptr), temTexturaFlag(false) {
-    id = nextId++;
+    id = 0;
 }
 
 bool Esfera::intersecta(const Ray& ray, float& ti) const {
@@ -72,4 +70,13 @@ bool Esfera::temTextura() const {
 void Esfera::setTextura(Textura* tex) {
     textura = tex;
     temTexturaFlag = (tex != nullptr);
+}
+
+// ========== IMPLEMENTAÇÕES DAS TRANSFORMAÇÕES ==========
+
+void Esfera::transforma(const Matriz4x4& M) {
+    cEsfera = M * cEsfera;
+    // Escala aproximada: média dos fatores de escala
+    float escalaMedia = (M.m[0][0] + M.m[1][1] + M.m[2][2]) / 3.0f;
+    rEsfera *= escalaMedia;
 }

@@ -1,12 +1,10 @@
 #include "objetos/Cubo.h"
 #include <cmath>
 
-int Cubo::nextId = 0;
-
 Cubo::Cubo(Ponto centro, float lado, Propriedades prop, int m)
     : centro(centro), lado(lado), prop(prop), m(m),
       textura(nullptr), temTexturaFlag(false) {
-    id = nextId++;
+    id = 0;
     inicializarMesh();
 }
 
@@ -134,3 +132,15 @@ void Cubo::setTextura(Textura* tex) {
 Vetor Cubo::normalNoPonto(Ponto p) const {
     return calcularNormal(p);
 }
+
+// ========== IMPLEMENTAÇÕES DAS TRANSFORMAÇÕES ==========
+
+void Cubo::transforma(const Matriz4x4& M) {
+    centro = M * centro;
+    float escalaMedia = (M.m[0][0] + M.m[1][1] + M.m[2][2]) / 3.0f;
+    lado *= escalaMedia;
+    inicializarMesh();
+}
+
+
+

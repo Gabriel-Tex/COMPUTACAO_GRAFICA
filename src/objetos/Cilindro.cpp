@@ -4,12 +4,10 @@
 #include <algorithm>
 #include <vector>
 
-int Cilindro::nextId = 0;
-
 Cilindro::Cilindro(Ponto CB, float rbCil, float altura, Vetor dcil, Propriedades prop, int m)
     : CB(CB), rbCil(rbCil), altura(altura), dcil(normalizar(dcil)), 
       prop(prop), m(m), textura(nullptr), temTexturaFlag(false) {
-    id = nextId++;
+    id = 0;
 }
 
 bool Cilindro::intersecta(const Ray& ray, float& t) const {
@@ -147,3 +145,12 @@ bool Cilindro::verificarAltura(const Ponto& ponto) const {
 Ponto Cilindro::calcularTopo() const {
     return CB + (dcil * altura);
 }
+
+// ========== IMPLEMENTAÇÕES DAS TRANSFORMAÇÕES ==========
+
+void Cilindro::transforma(const Matriz4x4& M) {
+    CB = M * CB;
+    dcil = normalizar(M * dcil);
+}
+
+

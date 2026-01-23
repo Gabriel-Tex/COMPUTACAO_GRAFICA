@@ -6,7 +6,10 @@
 #include "./auxiliares/Vetores.h"
 #include "./auxiliares/Iluminacao.h"
 #include "./auxiliares/Textura.h"
+#include "./auxiliares/Matrizes.h"
 #include <string>
+
+class Matriz4x4;
 
 class Objeto {
 public:
@@ -30,6 +33,8 @@ public:
         float t;
         return intersecta(shadowRay, t) && t > 0 && t < distanciaLuz;
     }
+
+    virtual void transforma(const Matriz4x4& M) = 0;
 };
 
 #endif

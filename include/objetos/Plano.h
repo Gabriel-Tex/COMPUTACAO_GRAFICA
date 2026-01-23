@@ -2,6 +2,7 @@
 #define PLANO_H
 
 #include "Objeto.h"
+#include "./auxiliares/Matrizes.h"
 #include "./auxiliares/Textura.h"
 #include <string>
 
@@ -13,7 +14,6 @@ private:
     int m;
     Textura* textura;
     bool temTexturaFlag;
-    static int nextId;
     int id;
     
 public:
@@ -34,6 +34,9 @@ public:
     Vetor getNormal() const { return n; }
     
     Cor getCorTexturaPt(const Ponto& Pt) const;
+
+    void transforma(const Matriz4x4& M);
+  
 };
 
 #endif

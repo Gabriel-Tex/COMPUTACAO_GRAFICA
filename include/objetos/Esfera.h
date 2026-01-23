@@ -2,6 +2,7 @@
 #define ESFERA_H
 
 #include "Objeto.h"
+#include "./auxiliares/Matrizes.h"
 #include "./auxiliares/Textura.h"
 #include <string>
 
@@ -16,7 +17,6 @@ private:
     int m_esfera;
     Textura* textura;
     bool temTexturaFlag;
-    static int nextId;
     int id;
     
 public:
@@ -39,6 +39,8 @@ public:
     Cor getCor() const { return cor; }
     
     void setCor(const Cor& novaCor) { cor = novaCor; }
+
+    void transforma(const Matriz4x4& M);
 };
 
 #endif

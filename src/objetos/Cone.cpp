@@ -4,12 +4,11 @@
 #include <algorithm>
 #include <vector>
 
-int Cone::nextId = 0;
 
 Cone::Cone(Ponto CB, float rbCone, float altura, Vetor dco, Propriedades prop, int m)
     : CB(CB), rbCone(rbCone), altura(altura), dco(normalizar(dco)), 
       prop(prop), m(m), textura(nullptr), temTexturaFlag(false) {
-    id = nextId++;
+    id = 0;
 }
 
 bool Cone::intersecta(const Ray& ray, float& t) const {
@@ -146,4 +145,11 @@ Ponto Cone::getVertice() const {
 
 float Cone::calcularRazao() const {
     return rbCone / altura;
+}
+
+// ========== IMPLEMENTAÇÕES DAS TRANSFORMAÇÕES ==========
+
+void Cone::transforma(const Matriz4x4& M) {
+    CB = M * CB;
+    dco = normalizar(M * dco);
 }

@@ -4,6 +4,7 @@
 #include "./auxiliares/Pontos.h"
 #include "./auxiliares/Vetores.h"
 #include "./auxiliares/Iluminacao.h"
+#include "./auxiliares/Matrizes.h"
 
 // ============== DEFINIÇÃO DA CLASSE ==============
 
@@ -16,6 +17,8 @@ public:
     int m;
 
     Triangulo(Ponto A, Ponto B, Ponto C, Vetor n, Propriedades prop, int m);
+
+    void transforma(const Matriz4x4& M);
 
 private:
     // função auxiliar para cálculo de coordenadas baricêntricas

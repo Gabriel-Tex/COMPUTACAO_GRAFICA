@@ -2,6 +2,7 @@
 #define CILINDRO_H
 
 #include "Objeto.h"
+#include "./auxiliares/Matrizes.h"
 #include "./auxiliares/Textura.h"
 #include <string>
 
@@ -17,7 +18,6 @@ private:
     int m;
     Textura* textura;
     bool temTexturaFlag;
-    static int nextId;
     int id;
     
 public:
@@ -41,6 +41,9 @@ public:
     
     bool verificarAltura(const Ponto& ponto) const;
     Ponto calcularTopo() const;
+
+    // Métodos de transformação
+    void transforma(const Matriz4x4& M);
 };
 
 #endif

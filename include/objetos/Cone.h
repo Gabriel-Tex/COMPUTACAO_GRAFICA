@@ -2,6 +2,7 @@
 #define CONE_H
 
 #include "Objeto.h"
+#include "./auxiliares/Matrizes.h"
 #include "./auxiliares/Textura.h"
 #include <string>
 
@@ -17,7 +18,6 @@ private:
     int m;
     Textura* textura;
     bool temTexturaFlag;
-    static int nextId;
     int id;
     
 public:
@@ -39,6 +39,8 @@ public:
     float getAltura() const { return altura; }
     Vetor getDirecao() const { return dco; }
     Ponto getVertice() const;
+
+    void transforma(const Matriz4x4& M);
     
 private:
     float calcularRazao() const;

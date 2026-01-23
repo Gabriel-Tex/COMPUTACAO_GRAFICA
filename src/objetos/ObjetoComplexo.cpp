@@ -1,12 +1,20 @@
 #include "objetos/ObjetoComplexo.h"
+
+// Inclua os headers dos objetos
 #include "objetos/Esfera.h"
 #include "objetos/Cilindro.h"
 #include "objetos/Cone.h"
 #include "objetos/Cubo.h"
+
 #include <limits>
+#include <iostream>
+
+using namespace std;
 
 ObjetoComplexo::ObjetoComplexo() 
-    : componenteAtingido(nullptr) {
+    : componenteAtingido(nullptr),
+      props(Propriedades(Cor(1,1,1), Cor(1,1,1), Cor(0.1,0.1,0.1))),
+      materialId(10) {
 }
 
 bool ObjetoComplexo::intersecta(const Ray& ray, float& ti) const {
@@ -60,8 +68,29 @@ void ObjetoComplexo::setTextura(Textura* tex) {
     }
 }
 
-void ObjetoComplexo::adicionarComponente(unique_ptr<Objeto> obj) {
-    componentes.push_back(obj.get());
-    componentesOwned.push_back(move(obj));
+// Alterado: recebe Objeto* em vez de unique_ptr<Objeto>
+void ObjetoComplexo::adicionarComponente(Objeto* obj) {
+    componentes.push_back(obj);
+    // Não gerencia a memória aqui - quem chamou é responsável
+}
+
+Propriedades ObjetoComplexo::getPropriedades() const {
+    if (componenteAtingido) {
+        return componenteAtingido->getPropriedades();
+    }
+    return props;
+}
+
+int ObjetoComplexo::getMaterial() const {
+    if (componenteAtingido) {
+        return componenteAtingido->getMaterial();
+    }
+    return materialId;
+}
+
+void ObjetoComplexo::transforma(const Matriz4x4& M) {
+    for (auto comp : componentes) {
+        comp->transforma(M);
+    }
 }
 

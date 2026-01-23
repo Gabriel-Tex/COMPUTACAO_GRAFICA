@@ -1,7 +1,8 @@
 #ifndef OBJETOCOMPLEXO_H
 #define OBJETOCOMPLEXO_H
 
-#include "objetos/Objeto.h"
+#include "Objeto.h"
+#include "./auxiliares/Matrizes.h"
 #include <vector>
 #include <memory>
 
@@ -12,6 +13,8 @@ private:
     vector<Objeto*> componentes;
     mutable Objeto* componenteAtingido; 
     vector<unique_ptr<Objeto>> componentesOwned;
+    Propriedades props;
+    int materialId;
     
 public:
     ObjetoComplexo();
@@ -23,8 +26,12 @@ public:
     Cor getCorTextura(const Ponto& ponto) const override;
     bool temTextura() const override; 
     void setTextura(Textura* tex) override;
+    Propriedades getPropriedades() const override;
+    int getMaterial() const override;
     
-    void adicionarComponente(unique_ptr<Objeto> obj);
+    void adicionarComponente(Objeto* obj); 
+    
+    void transforma(const Matriz4x4& M);
     
 };
 

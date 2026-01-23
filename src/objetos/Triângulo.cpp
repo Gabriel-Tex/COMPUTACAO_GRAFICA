@@ -89,3 +89,12 @@ void normalTriangulo(Triangulo triangulo){
     Vetor u = triangulo.C - triangulo.A;
     triangulo.n = normalizar(produto_vetorial(v, u));
 }
+
+// ========== IMPLEMENTAÇÕES DAS TRANSFORMAÇÕES ==========
+
+void Triangulo::transforma(const Matriz4x4& M) {
+    A = M * A;
+    B = M * B;
+    C = M * C;
+    n = normalizar(M * n);
+}

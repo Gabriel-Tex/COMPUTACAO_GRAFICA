@@ -51,10 +51,10 @@ int main() {
     }
 
     // =========== CRIAR OBJETOS ===========
-    vector<unique_ptr<Objeto>> objetos;
+    vector<Objeto*> objetos;
     
     // ESFERA01
-    objetos.push_back(make_unique<Esfera>(
+    Esfera esfera01(
         5.0f,
         Ponto(0.0f, 95.0f, -200.0f),
         normalizaRGB(255, 0, 0),
@@ -64,10 +64,13 @@ int main() {
             Cor(0.854f, 0.647f, 0.125f)
         ),
         10
-    ));
+    );
     
-    // PLANO_CHAO com textura
-    auto planoChao = make_unique<Plano>(
+    objetos.push_back(&esfera01);
+    
+    // PLANO_CHAO
+
+    Plano planoChao (
         Ponto(0.0f, -150.0f, 0.0f),
         Vetor(0, 1, 0),
         Propriedades(
@@ -75,13 +78,15 @@ int main() {
             Cor(0.0f, 0.0f, 0.0f),
             Cor(0.2f, 0.7f, 0.2f)
         ),
-        1
-    );
-    planoChao->setTextura(&texturaChao);
-    objetos.push_back(std::move(planoChao));
+        1);
+    // PLANO_CHAO com textura
+
+    planoChao.setTextura(&texturaChao);
+    objetos.push_back(&planoChao);
     
     // PLANO_LD
-    objetos.push_back(make_unique<Plano>(
+
+    Plano planoLD (
         Ponto(200.0f, -150.0f, 0.0f),
         Vetor(-1, 0, 0),
         Propriedades(
@@ -90,10 +95,11 @@ int main() {
             Cor(0.686f, 0.933f, 0.933f)
         ),
         1
-    ));
+    );
+    objetos.push_back(&planoLD);
     
     // PLANO_FRONTAL
-    objetos.push_back(make_unique<Plano>(
+    Plano planoFrotal(
         Ponto(200.0f, -150.0f, -400.0f),
         Vetor(0, 0, 1),
         Propriedades(
@@ -101,11 +107,12 @@ int main() {
             Cor(0.686f, 0.933f, 0.933f),
             Cor(0.686f, 0.933f, 0.933f)
         ),
-        1
-    ));
+        1 
+    );
+    objetos.push_back(&planoFrotal);
     
     // PLANO_LE
-    objetos.push_back(make_unique<Plano>(
+    Plano planoLE (
         Ponto(-200.0f, -150.0f, 0.0f),
         Vetor(1, 0, 0),
         Propriedades(
@@ -114,10 +121,11 @@ int main() {
             Cor(0.686f, 0.933f, 0.933f)
         ),
         1
-    ));
+    );
+    objetos.push_back(&planoLE);
     
     // PLANO_TETO
-    objetos.push_back(make_unique<Plano>(
+    Plano planoTeto(
         Ponto(0.0f, 150.0f, 0.0f),
         Vetor(0, -1, 0),
         Propriedades(
@@ -126,10 +134,11 @@ int main() {
             Cor(0.933f, 0.933f, 0.933f)
         ),
         1
-    ));
+    );
+    objetos.push_back(&planoTeto);
     
     // CILINDRO01
-    objetos.push_back(make_unique<Cilindro>(
+    Cilindro cilindro01(
         Ponto(0.0f, -150.0f, -200.0f),
         5.0f,
         90.0f,
@@ -140,10 +149,14 @@ int main() {
             Cor(0.824f, 0.706f, 0.549f)
         ),
         10
-    ));
+    );
+    //Matriz4x4 T = Transformacao::translacao(-50.0f, 0.0f, 50.0f);
+    //cilindro01.transforma(T);
+
+    objetos.push_back(&cilindro01);
     
     // CONE01
-    objetos.push_back(make_unique<Cone>(
+    Cone cone01(
         Ponto(0.0f, -60.0f, -200.0f),
         90.0f,
         150.0f,
@@ -154,10 +167,11 @@ int main() {
             Cor(0.0f, 1.0f, 0.498f)
         ),
         10
-    ));
+    );
+    objetos.push_back(&cone01);
     
     // CUBO01
-    objetos.push_back(make_unique<Cubo>(
+    Cubo cubo01(
         Ponto(0.0f, -150.0f, -165.0f),
         40.0f,
         Propriedades(
@@ -166,7 +180,8 @@ int main() {
             Cor(0.0f, 1.0f, 0.498f)
         ),
         10
-    ));
+    );
+    objetos.push_back(&cubo01);
     
     // =========== RENDERIZAÇÃO ===========
     vector<vector<Cor>> canvasArray(canvas.nLin, vector<Cor>(canvas.nCol, canvas.bgColor));
