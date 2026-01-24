@@ -4,17 +4,23 @@
 
 Camera::Camera() 
     : eye(0, 0, 0), 
-      AtPoint(0, 0, -1), 
-      UpPoint(0, 1, 0),
-      distanciaFocal(30.0f),
-      janela(60.0f, 60.0f, 30.0f) {
+    AtPoint(0, 0, -1), 
+    UpPoint(0, 1, 0),
+    distanciaFocal(30.0f),
+    janela(60.0f, 60.0f, 30.0f),
+    xmin(-30.0f), xmax(30.0f),
+    ymin(-30.0f), ymax(30.0f) {
     atualizarSistemaCoordenadas();
 }
 
 Camera::Camera(const Ponto& eye, const Ponto& AtPoint, const Vetor& up, 
                float distanciaFocal, const Janela& janela)
     : eye(eye), AtPoint(AtPoint), UpPoint(up), 
-      distanciaFocal(distanciaFocal), janela(janela) {
+      distanciaFocal(distanciaFocal), janela(janela),
+      xmin(-janela.wJ/2.0f),      
+      xmax(janela.wJ/2.0f),       
+      ymin(-janela.hJ/2.0f),      
+      ymax(janela.hJ/2.0f)  {
     atualizarSistemaCoordenadas();
 }
 
@@ -67,6 +73,16 @@ Ponto Camera::calcularPontoJanela(float u, float v) const {
     Ponto pontoJanela = (direita * deslocX) + (acima * deslocY) + centroJanela;
     
     return pontoJanela;
+}
+
+void Camera::setCampoDeVisao(float novo_xmin, float novo_xmax, float novo_ymin, float novo_ymax) {
+    xmin = novo_xmin;
+    xmax = novo_xmax;
+    ymin = novo_ymin;
+    ymax = novo_ymax;
+    
+    janela.wJ = xmax - xmin;
+    janela.hJ = ymax - ymin;
 }
 
 // ============== MOVIMENTAÇÃO DA CÂMERA ==============

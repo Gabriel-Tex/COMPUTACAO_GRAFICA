@@ -25,6 +25,7 @@ private:
     float distanciaFocal;
     Janela janela;
     
+    float xmin, xmax, ymin, ymax;
 public:
     // Construtores
     Camera();
@@ -51,6 +52,9 @@ public:
     
     // gera raio para coordenadas UV [0,1]
     Ray gerarRaio(float u, float v) const;
+
+    void setCampoDeVisao(float novo_xmin, float novo_xmax, float novo_ymin, float novo_ymax);
+
     
     // manipulação da câmera
     void atualizarSistemaCoordenadas();
@@ -63,7 +67,7 @@ public:
     void rotacionarEmX(float anguloGraus);
     void rotacionarEmZ(float anguloGraus);
     void zoom(float fator);
-    //void setFOV(float graus);
+
 private:
     // calcula ponto na janela
     Ponto calcularPontoJanela(float u, float v) const;
