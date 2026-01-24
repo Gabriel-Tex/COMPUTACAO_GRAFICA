@@ -235,4 +235,9 @@ void Cubo::espelharYZ() {
     transforma(E);
 }
 
+void Cubo::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto) {
+    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloGraus, ponto);
+    transforma(R);
+}
+
 

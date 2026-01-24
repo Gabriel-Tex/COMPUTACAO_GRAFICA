@@ -68,10 +68,8 @@ void ObjetoComplexo::setTextura(Textura* tex) {
     }
 }
 
-// Alterado: recebe Objeto* em vez de unique_ptr<Objeto>
 void ObjetoComplexo::adicionarComponente(Objeto* obj) {
     componentes.push_back(obj);
-    // Não gerencia a memória aqui - quem chamou é responsável
 }
 
 Propriedades ObjetoComplexo::getPropriedades() const {

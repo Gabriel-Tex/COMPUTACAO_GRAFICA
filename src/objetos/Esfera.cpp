@@ -130,3 +130,8 @@ void Esfera::espelharYZ() {
     Matriz4x4 E = Transformacao::espelhamentoYZ();
     transforma(E);
 }
+
+void Esfera::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto) {
+    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloGraus, ponto);
+    transforma(R);
+}

@@ -1,4 +1,5 @@
 #include "auxiliares/Matrizes.h"
+#include "auxiliares/Quaternios.h" 
 #include <cmath>
 
 // ============== IMPLEMENTAÇÃO DA CLASSE Matriz4x4 ==============
@@ -48,9 +49,9 @@ Vetor Matriz4x4::operator*(const Vetor& v) const {
     return Vetor(x, y, z);
 }
 
-// ============== IMPLEMENTAÇÃO DAS FUNÇÕES DE TRANSFORMAÇÃO ==============
+// ============== IMPLEMENTAÇÃO DAS MATRIZES DE TRANSFORMAÇÃO ==============
 
-// 1.4.1. Translação
+// Translação
 Matriz4x4 Transformacao::translacao(float tx, float ty, float tz) {
     Matriz4x4 T;
     T.m[0][3] = tx;
@@ -63,7 +64,7 @@ Matriz4x4 Transformacao::translacao(const Vetor& t) {
     return translacao(t.x, t.y, t.z);
 }
 
-// 1.4.2. Rotação em torno dos eixos principais
+// Rotação em torno dos eixos x, y e z
 Matriz4x4 Transformacao::rotacaoX(float angulo) {
     float c = cos(angulo);
     float s = sin(angulo);
@@ -97,9 +98,9 @@ Matriz4x4 Transformacao::rotacaoZ(float angulo) {
     return R;
 }
 
-// 1.4.2. Rotação em torno de eixo arbitrário
+// Rotação em torno de eixo arbitrário
 
-// 1.4.3. Escala
+// Escala
 Matriz4x4 Transformacao::escalaOrigem(float sx, float sy, float sz) {
 
     Matriz4x4 S;
@@ -119,7 +120,7 @@ Matriz4x4 Transformacao::escala(float sx, float sy, float sz, Ponto ponto_fixo) 
     return M;
 }
 
-// 1.4.4. Cisalhamento
+// Cisalhamento
 Matriz4x4 Transformacao::cisalhamentoX_XZ(float anguloGraus) {
     float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
     
@@ -152,7 +153,7 @@ Matriz4x4 Transformacao::cisalhamentoZ_XY(float anguloGraus) {
     return C;
 }
 
-// 1.4.5. espelhamento 
+// Espelhamento 
 Matriz4x4 Transformacao::espelhamentoXY() {
     Matriz4x4 M;
     M.m[2][2] = -1.0f;
@@ -171,6 +172,25 @@ Matriz4x4 Transformacao::espelhamentoYZ() {
     return M;
 }
 
+// Rotação em torno de eixo arbitrário (origem)
+Matriz4x4 Transformacao::rotacaoEixoArbitrarioOrigem(const Vetor& eixo, float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Quaternio q = Quaternio::criarQuaternio(eixo, anguloRad);
+    
+    return q.paraMatriz();
+}
+
+// Rotação em torno de eixo arbitrário
+Matriz4x4 Transformacao::rotacaoEixoArbitrarioPonto(const Vetor& eixo, float anguloGraus, Ponto ponto) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 T1 = translacao(-ponto.x, -ponto.y, -ponto.z);
+    Matriz4x4 R = rotacaoEixoArbitrarioOrigem(eixo, anguloRad);
+    Matriz4x4 T2 = translacao(ponto.x, ponto.y, ponto.z);
+    
+    return T2 * R * T1;
+}
+
 float Transformacao::grausParaRadianos(float graus) {
     return graus * M_PI / 180.0f;
 }
+

@@ -260,4 +260,8 @@ void Cone::espelharYZ() {
     transforma(E);
 }
 
+void Cone::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto) {
+    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloGraus, ponto);
+    transforma(R);
+}
 

@@ -20,37 +20,41 @@ public:
     // Multiplicação de matriz por ponto
     Ponto operator*(const Ponto& p) const;
     
-    // Multiplicação de matriz por vetor (ignora translação)
+    // Multiplicação de matriz por vetor 
     Vetor operator*(const Vetor& v) const;
 };
 
 namespace Transformacao {
-    // 1.4.1. Translação
+    // Translação
     Matriz4x4 translacao(float tx, float ty, float tz);
     Matriz4x4 translacao(const Vetor& t);
     
-    // 1.4.2. Rotação em torno dos eixos principais
+    // Rotação em torno dos eixos x, y e z
     Matriz4x4 rotacaoX(float angulo);   
     Matriz4x4 rotacaoY(float angulo);    
     Matriz4x4 rotacaoZ(float angulo);    
     
-    // 1.4.2. Rotação em torno de eixo arbitrário
+    // Rotação em torno de eixo arbitrário
     
-    // 1.4.3. Escala
+    // Escala
     Matriz4x4 escalaOrigem(float sx, float sy, float sz);
     Matriz4x4 escala(float sx, float sy, float sz, Ponto ponto_fixo);
     
-    // 1.4.4. Cisalhamento
+    // Cisalhamento
     Matriz4x4 cisalhamentoX_XZ(float anguloGraus);
     Matriz4x4 cisalhamentoY_XZ(float anguloGraus);
     Matriz4x4 cisalhamentoY_XY(float anguloGraus);
     Matriz4x4 cisalhamentoZ_XY(float anguloGraus);
     
-    // 1.4.5. espelhamento 
+    // Espelhamento 
     Matriz4x4 espelhamentoXY();
     Matriz4x4 espelhamentoXZ();
     Matriz4x4 espelhamentoYZ();
     
+    Matriz4x4 rotacaoEixoArbitrarioOrigem(const Vetor& eixo, float angulo);
+    
+    Matriz4x4 rotacaoEixoArbitrarioPonto(const Vetor& eixo, float angulo, Ponto ponto);
+
     float grausParaRadianos(float graus);
 }
 

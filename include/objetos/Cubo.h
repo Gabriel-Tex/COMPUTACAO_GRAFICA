@@ -51,6 +51,7 @@ public:
     void espelharXY();
     void espelharXZ();
     void espelharYZ();
+    void rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto);
     
 private:
     void inicializarMesh();
