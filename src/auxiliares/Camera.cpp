@@ -77,20 +77,12 @@ void Camera::mover(const Vetor& deslocamento) {
     atualizarSistemaCoordenadas();
 }
 
-void Camera::rotacionar(float anguloX, float anguloY) {
-    float cosX = cos(anguloX);
-    float sinX = sin(anguloX);
-    float cosY = cos(anguloY);
-    float sinY = sin(anguloY);
+void Camera::rotacionar(float anguloX, float anguloY, float anguloZ) {
+    rotacionarEmY(anguloY);
     
-    Vetor novoFrente;
-    novoFrente.x = frente.x * cosY + frente.z * sinY;
-    novoFrente.y = frente.y;
-    novoFrente.z = -frente.x * sinY + frente.z * cosY;
+    rotacionarEmX(anguloX);
     
-    AtPoint = (novoFrente * distanciaFocal) + eye;
-    
-    atualizarSistemaCoordenadas();
+    rotacionarEmZ(anguloZ);
 }
 
 void Camera::moverFrente(float distancia) {
@@ -143,6 +135,22 @@ void Camera::rotacionarEmX(float anguloGraus) {
         AtPoint = eye + (novaFrente * distanciaFocal);
         atualizarSistemaCoordenadas();
     }
+}
+
+void Camera::rotacionarEmZ(float anguloGraus) {
+    float anguloRad = anguloGraus * M_PI / 180.0f;
+    
+    float cosA = cos(anguloRad);
+    float sinA = sin(anguloRad);
+    
+    Vetor novoAcima;
+    novoAcima.x = acima.x * cosA - acima.y * sinA;
+    novoAcima.y = acima.x * sinA + acima.y * cosA;
+    novoAcima.z = acima.z;
+    
+    UpPoint = novoAcima;
+    
+    atualizarSistemaCoordenadas();
 }
 
 void Camera::zoom(float fator) {

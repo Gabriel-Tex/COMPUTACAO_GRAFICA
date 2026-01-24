@@ -55,14 +55,15 @@ public:
     // manipulação da câmera
     void atualizarSistemaCoordenadas();
     void mover(const Vetor& deslocamento);
-    void rotacionar(float anguloX, float anguloY);
+    void rotacionar(float anguloX, float anguloY, float anguloZ);
     void moverFrente(float distancia);
     void moverDireita(float distancia);
     void moverCima(float distancia);
     void rotacionarEmY(float anguloGraus);
     void rotacionarEmX(float anguloGraus);
+    void rotacionarEmZ(float anguloGraus);
     void zoom(float fator);
-    void setFOV(float graus);
+    //void setFOV(float graus);
 private:
     // calcula ponto na janela
     Ponto calcularPontoJanela(float u, float v) const;
