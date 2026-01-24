@@ -152,20 +152,20 @@ Matriz4x4 Transformacao::cisalhamentoZ_XY(float anguloGraus) {
     return C;
 }
 
-// 1.4.5. Espelho 
-Matriz4x4 Transformacao::espelhoXY() {
+// 1.4.5. espelhamento 
+Matriz4x4 Transformacao::espelhamentoXY() {
     Matriz4x4 M;
     M.m[2][2] = -1.0f;
     return M;
 }
 
-Matriz4x4 Transformacao::espelhoXZ() {
+Matriz4x4 Transformacao::espelhamentoXZ() {
     Matriz4x4 M;
     M.m[1][1] = -1.0f;
     return M;
 }
 
-Matriz4x4 Transformacao::espelhoYZ() {
+Matriz4x4 Transformacao::espelhamentoYZ() {
     Matriz4x4 M;
     M.m[0][0] = -1.0f;
     return M;

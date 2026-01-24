@@ -155,7 +155,7 @@ int main() {
     //cilindro01.escalar(3.0f, 3.0f, 3.0f, cilindro01.getCentroBase());
     //cilindro01.rotacionarX(90.0f);
     //cilindro01.transladar(-100.0f, 0.0f, 30.0f);
-    
+    //cilindro01.espelharXZ();
     //cilindro01.cisalharX_XZ(45);
     objetos.push_back(&cilindro01);
     

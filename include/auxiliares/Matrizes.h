@@ -46,10 +46,10 @@ namespace Transformacao {
     Matriz4x4 cisalhamentoY_XY(float anguloGraus);
     Matriz4x4 cisalhamentoZ_XY(float anguloGraus);
     
-    // 1.4.5. Espelho 
-    Matriz4x4 espelhoXY();
-    Matriz4x4 espelhoXZ();
-    Matriz4x4 espelhoYZ();
+    // 1.4.5. espelhamento 
+    Matriz4x4 espelhamentoXY();
+    Matriz4x4 espelhamentoXZ();
+    Matriz4x4 espelhamentoYZ();
     
     float grausParaRadianos(float graus);
 }

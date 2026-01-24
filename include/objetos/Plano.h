@@ -41,6 +41,9 @@ public:
     void rotacionarX(float angulo);
     void rotacionarY(float angulo);
     void rotacionarZ(float angulo);  
+    void espelharXY();
+    void espelharXZ();
+    void espelharYZ();
 };
 
 #endif

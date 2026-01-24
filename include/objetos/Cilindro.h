@@ -53,6 +53,10 @@ public:
     void cisalharY_XY(float angulo);
     void cisalharY_XZ(float angulo);
     void cisalharZ_XY(float angulo);
+    void espelharXY();
+    void espelharXZ();
+    void espelharYZ();
+    
 };
 
 #endif

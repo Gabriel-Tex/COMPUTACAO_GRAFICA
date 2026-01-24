@@ -117,28 +117,16 @@ void Esfera::rotacionarZ(float angulo) {
 }
 
 void Esfera::espelharXY() {
-    Ponto centro = getCentro();
-    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
-    Matriz4x4 E = Transformacao::espelhoXY();
-    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
-    Matriz4x4 M = T2 * E * T1;
-    transforma(M);
+    Matriz4x4 E = Transformacao::espelhamentoXY();
+    transforma(E);
 }
 
 void Esfera::espelharXZ() {
-    Ponto centro = getCentro();
-    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
-    Matriz4x4 E = Transformacao::espelhoXZ();
-    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
-    Matriz4x4 M = T2 * E * T1;
-    transforma(M);
+    Matriz4x4 E = Transformacao::espelhamentoXZ();
+    transforma(E);
 }
 
 void Esfera::espelharYZ() {
-    Ponto centro = getCentro();
-    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
-    Matriz4x4 E = Transformacao::espelhoYZ();
-    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
-    Matriz4x4 M = T2 * E * T1;
-    transforma(M);
+    Matriz4x4 E = Transformacao::espelhamentoYZ();
+    transforma(E);
 }

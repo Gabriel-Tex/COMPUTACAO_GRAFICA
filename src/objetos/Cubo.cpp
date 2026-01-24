@@ -221,31 +221,18 @@ void Cubo::cisalharZ_XY(float angulo) {
 }
 
 void Cubo::espelharXY() {
-    Ponto centro_cubo = getCentro();
-    Matriz4x4 T1 = Transformacao::translacao(-centro_cubo.x, -centro_cubo.y, -centro_cubo.z);
-    Matriz4x4 E = Transformacao::espelhoXY();
-    Matriz4x4 T2 = Transformacao::translacao(centro_cubo.x, centro_cubo.y, centro_cubo.z);
-    Matriz4x4 M = T2 * E * T1;
-    transforma(M);
+    Matriz4x4 E = Transformacao::espelhamentoXY();
+    transforma(E);
 }
 
 void Cubo::espelharXZ() {
-    Ponto centro_cubo = getCentro();
-    Matriz4x4 T1 = Transformacao::translacao(-centro_cubo.x, -centro_cubo.y, -centro_cubo.z);
-    Matriz4x4 E = Transformacao::espelhoXZ();
-    Matriz4x4 T2 = Transformacao::translacao(centro_cubo.x, centro_cubo.y, centro_cubo.z);
-    Matriz4x4 M = T2 * E * T1;
-    transforma(M);
+    Matriz4x4 E = Transformacao::espelhamentoXZ();
+    transforma(E);
 }
 
 void Cubo::espelharYZ() {
-    Ponto centro_cubo = getCentro();
-    Matriz4x4 T1 = Transformacao::translacao(-centro_cubo.x, -centro_cubo.y, -centro_cubo.z);
-    Matriz4x4 E = Transformacao::espelhoYZ();
-    Matriz4x4 T2 = Transformacao::translacao(centro_cubo.x, centro_cubo.y, centro_cubo.z);
-    Matriz4x4 M = T2 * E * T1;
-    transforma(M);
+    Matriz4x4 E = Transformacao::espelhamentoYZ();
+    transforma(E);
 }
-
 
 

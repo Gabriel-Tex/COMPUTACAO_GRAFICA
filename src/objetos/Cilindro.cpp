@@ -260,3 +260,17 @@ void Cilindro::cisalharZ_XY(float angulo) {
     transforma(M);
 }
 
+void Cilindro::espelharXY() {
+    Matriz4x4 E = Transformacao::espelhamentoXY();
+    transforma(E);
+}
+
+void Cilindro::espelharXZ() {
+    Matriz4x4 E = Transformacao::espelhamentoXZ();
+    transforma(E);
+}
+
+void Cilindro::espelharYZ() {
+    Matriz4x4 E = Transformacao::espelhamentoYZ();
+    transforma(E);
+}
