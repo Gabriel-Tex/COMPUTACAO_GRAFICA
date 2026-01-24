@@ -142,5 +142,110 @@ void Cubo::transforma(const Matriz4x4& M) {
     inicializarMesh();
 }
 
+void Cubo::transladar(float tx, float ty, float tz) {
+    Matriz4x4 T = Transformacao::translacao(tx, ty, tz);
+    transforma(T);
+}
+
+void Cubo::escalar(float s, Ponto ponto_fixo) {
+    Matriz4x4 S = Transformacao::escala(s, s, s, ponto_fixo);
+    centro = S * centro;
+    lado *= s;
+    inicializarMesh(); 
+}
+
+void Cubo::rotacionarX(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto centro = getCentro();  
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R = Transformacao::rotacaoX(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    Matriz4x4 M = T2 * R * T1;
+    transforma(M);
+}
+
+void Cubo::rotacionarY(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto centro = getCentro();  
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R = Transformacao::rotacaoY(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    Matriz4x4 M = T2 * R * T1;
+    transforma(M);
+}
+
+void Cubo::rotacionarZ(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto centro = getCentro();  
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R = Transformacao::rotacaoZ(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    Matriz4x4 M = T2 * R * T1;
+    transforma(M);
+}
+
+void Cubo::cisalharX_XZ(float angulo) {
+    Ponto base = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 C = Transformacao::cisalhamentoX_XZ(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+    Matriz4x4 M = T2 * C * T1;
+    transforma(M);
+}
+
+void Cubo::cisalharY_XY(float angulo) {
+    Ponto base = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 C = Transformacao::cisalhamentoY_XY(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+    Matriz4x4 M = T2 * C * T1;
+    transforma(M);
+}
+
+void Cubo::cisalharY_XZ(float angulo) {
+    Ponto base = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 C = Transformacao::cisalhamentoY_XZ(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+    Matriz4x4 M = T2 * C * T1;
+    transforma(M);
+}
+
+void Cubo::cisalharZ_XY(float angulo) {
+    Ponto base = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 C = Transformacao::cisalhamentoZ_XY(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+    Matriz4x4 M = T2 * C * T1;
+    transforma(M);
+}
+
+void Cubo::espelharXY() {
+    Ponto centro_cubo = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-centro_cubo.x, -centro_cubo.y, -centro_cubo.z);
+    Matriz4x4 E = Transformacao::espelhoXY();
+    Matriz4x4 T2 = Transformacao::translacao(centro_cubo.x, centro_cubo.y, centro_cubo.z);
+    Matriz4x4 M = T2 * E * T1;
+    transforma(M);
+}
+
+void Cubo::espelharXZ() {
+    Ponto centro_cubo = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-centro_cubo.x, -centro_cubo.y, -centro_cubo.z);
+    Matriz4x4 E = Transformacao::espelhoXZ();
+    Matriz4x4 T2 = Transformacao::translacao(centro_cubo.x, centro_cubo.y, centro_cubo.z);
+    Matriz4x4 M = T2 * E * T1;
+    transforma(M);
+}
+
+void Cubo::espelharYZ() {
+    Ponto centro_cubo = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-centro_cubo.x, -centro_cubo.y, -centro_cubo.z);
+    Matriz4x4 E = Transformacao::espelhoYZ();
+    Matriz4x4 T2 = Transformacao::translacao(centro_cubo.x, centro_cubo.y, centro_cubo.z);
+    Matriz4x4 M = T2 * E * T1;
+    transforma(M);
+}
+
 
 

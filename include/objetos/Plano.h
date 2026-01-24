@@ -36,7 +36,11 @@ public:
     Cor getCorTexturaPt(const Ponto& Pt) const;
 
     void transforma(const Matriz4x4& M);
-  
+    void transladar(float tx, float ty, float tz);
+    void escalar(float sx, float sy, float sz, Ponto ponto_fixo = Ponto(0,0,0)); 
+    void rotacionarX(float angulo);
+    void rotacionarY(float angulo);
+    void rotacionarZ(float angulo);  
 };
 
 #endif

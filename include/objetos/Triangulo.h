@@ -21,7 +21,6 @@ public:
     void transforma(const Matriz4x4& M);
 
 private:
-    // função auxiliar para cálculo de coordenadas baricêntricas
     bool estaDentroTriangulo(const Ponto& P) const;
 };
 

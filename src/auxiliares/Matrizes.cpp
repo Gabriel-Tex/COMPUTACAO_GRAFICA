@@ -98,66 +98,61 @@ Matriz4x4 Transformacao::rotacaoZ(float angulo) {
 }
 
 // 1.4.2. Rotação em torno de eixo arbitrário
-Matriz4x4 Transformacao::rotacaoEixoArbitrario(const Vetor& eixo, float angulo) {
-    Vetor u = normalizar(eixo);
-    float ux = u.x, uy = u.y, uz = u.z;
-    float c = cos(angulo);
-    float s = sin(angulo);
-    float omc = 1.0f - c;
-    
-    Matriz4x4 R;
-    
-    R.m[0][0] = c + ux*ux*omc;      
-    R.m[0][1] = ux*uy*omc - uz*s;  
-    R.m[0][2] = ux*uz*omc + uy*s;
-    
-    R.m[1][0] = uy*ux*omc + uz*s;   
-    R.m[1][1] = c + uy*uy*omc;      
-    R.m[1][2] = uy*uz*omc - ux*s;
-    
-    R.m[2][0] = uz*ux*omc - uy*s;   
-    R.m[2][1] = uz*uy*omc + ux*s;  
-    R.m[2][2] = c + uz*uz*omc;
-    
-    return R;
-}
 
 // 1.4.3. Escala
-Matriz4x4 Transformacao::escala(float sx, float sy, float sz) {
+Matriz4x4 Transformacao::escalaOrigem(float sx, float sy, float sz) {
+
     Matriz4x4 S;
     S.m[0][0] = sx;
     S.m[1][1] = sy;
     S.m[2][2] = sz;
+
     return S;
 }
 
-Matriz4x4 Transformacao::escalaUniforme(float s) {
-    return escala(s, s, s);
+Matriz4x4 Transformacao::escala(float sx, float sy, float sz, Ponto ponto_fixo) {
+    Matriz4x4 T1 = Transformacao::translacao(-ponto_fixo.x, -ponto_fixo.y, -ponto_fixo.z);    
+    Matriz4x4 S = Transformacao::escalaOrigem(sx, sy, sz);
+    Matriz4x4 T2 = Transformacao::translacao(ponto_fixo.x, ponto_fixo.y, ponto_fixo.z);
+    Matriz4x4 M = T2 * S * T1;
+    
+    return M;
 }
 
 // 1.4.4. Cisalhamento
-Matriz4x4 Transformacao::cisalhamentoXY(float shx, float shy) {
-    Matriz4x4 SH;
-    SH.m[0][2] = shx;
-    SH.m[1][2] = shy;
-    return SH;
+Matriz4x4 Transformacao::cisalhamentoX_XZ(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    
+    Matriz4x4 C;
+    C.m[0][1] = tan(anguloRad);
+    return C;
 }
 
-Matriz4x4 Transformacao::cisalhamentoXZ(float shx, float shz) {
-    Matriz4x4 SH;
-    SH.m[0][1] = shx;
-    SH.m[2][1] = shz;
-    return SH;
+Matriz4x4 Transformacao::cisalhamentoY_XZ(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    
+    Matriz4x4 C;
+    C.m[1][0] = tan(anguloRad);
+    return C;
 }
 
-Matriz4x4 Transformacao::cisalhamentoYZ(float shy, float shz) {
-    Matriz4x4 SH;
-    SH.m[1][0] = shy;
-    SH.m[2][0] = shz;
-    return SH;
+Matriz4x4 Transformacao::cisalhamentoY_XY(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    
+    Matriz4x4 C;
+    C.m[1][2] = tan(anguloRad);
+    return C;
 }
 
-// 1.4.5. Espelho em relação a planos
+Matriz4x4 Transformacao::cisalhamentoZ_XY(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    
+    Matriz4x4 C;
+    C.m[2][1] = tan(anguloRad);
+    return C;
+}
+
+// 1.4.5. Espelho 
 Matriz4x4 Transformacao::espelhoXY() {
     Matriz4x4 M;
     M.m[2][2] = -1.0f;
@@ -176,11 +171,6 @@ Matriz4x4 Transformacao::espelhoYZ() {
     return M;
 }
 
-// Conversão de ângulos
 float Transformacao::grausParaRadianos(float graus) {
     return graus * M_PI / 180.0f;
-}
-
-float Transformacao::radianosParaGraus(float radianos) {
-    return radianos * 180.0f / M_PI;
 }

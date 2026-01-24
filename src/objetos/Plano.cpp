@@ -92,3 +92,29 @@ void Plano::transforma(const Matriz4x4& M) {
     P_pi = M * P_pi;
     n = normalizar(M * n);
 }
+void Plano::transladar(float tx, float ty, float tz) {
+    Matriz4x4 T = Transformacao::translacao(tx, ty, tz);
+    transforma(T);
+}
+
+
+void Plano::escalar(float sx, float sy, float sz, Ponto ponto_fixo) {
+    Matriz4x4 S = Transformacao::escala(sx, sy, sz, ponto_fixo);
+    P_pi = S * P_pi;
+}
+
+void Plano::rotacionarX(float angulo) {
+    Matriz4x4 R = Transformacao::rotacaoX(angulo);
+    transforma(R);
+}
+
+void Plano::rotacionarY(float angulo) {
+    Matriz4x4 R = Transformacao::rotacaoY(angulo);
+    transforma(R);
+}
+
+void Plano::rotacionarZ(float angulo) {
+    Matriz4x4 R = Transformacao::rotacaoZ(angulo);
+    transforma(R);
+}
+

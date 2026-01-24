@@ -41,6 +41,15 @@ public:
     void setCor(const Cor& novaCor) { cor = novaCor; }
 
     void transforma(const Matriz4x4& M);
+    void transladar(float tx, float ty, float tz);
+    void escalar(float s, Ponto ponto_fixo = Ponto(0,0,0)); 
+    void rotacionarX(float angulo);
+    void rotacionarY(float angulo);
+    void rotacionarZ(float angulo);
+    void rotacionarEixoArbitrario(const Vetor& eixo, float angulo);  
+    void espelharXY();
+    void espelharXZ();
+    void espelharYZ();
 };
 
 #endif

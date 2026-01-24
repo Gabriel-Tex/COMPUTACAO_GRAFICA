@@ -76,7 +76,69 @@ void Esfera::setTextura(Textura* tex) {
 
 void Esfera::transforma(const Matriz4x4& M) {
     cEsfera = M * cEsfera;
-    // Escala aproximada: média dos fatores de escala
-    float escalaMedia = (M.m[0][0] + M.m[1][1] + M.m[2][2]) / 3.0f;
-    rEsfera *= escalaMedia;
+}
+
+void Esfera::transladar(float tx, float ty, float tz) {
+    Matriz4x4 T = Transformacao::translacao(tx, ty, tz);
+    transforma(T);
+}
+
+void Esfera::escalar(float s, Ponto ponto_fixo) {
+    Matriz4x4 S = Transformacao::escala(s, s, s, ponto_fixo);
+    cEsfera = S * cEsfera;
+    rEsfera *= s;
+}
+
+void Esfera::rotacionarX(float angulo) {
+    Ponto centro = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R = Transformacao::rotacaoX(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    Matriz4x4 M = T2 * R * T1;
+    transforma(M);
+}
+
+void Esfera::rotacionarY(float angulo) {
+    Ponto centro = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R = Transformacao::rotacaoY(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    Matriz4x4 M = T2 * R * T1;
+    transforma(M);
+}
+
+void Esfera::rotacionarZ(float angulo) {
+    Ponto centro = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R = Transformacao::rotacaoZ(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    Matriz4x4 M = T2 * R * T1;
+    transforma(M);
+}
+
+void Esfera::espelharXY() {
+    Ponto centro = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 E = Transformacao::espelhoXY();
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    Matriz4x4 M = T2 * E * T1;
+    transforma(M);
+}
+
+void Esfera::espelharXZ() {
+    Ponto centro = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 E = Transformacao::espelhoXZ();
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    Matriz4x4 M = T2 * E * T1;
+    transforma(M);
+}
+
+void Esfera::espelharYZ() {
+    Ponto centro = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 E = Transformacao::espelhoYZ();
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    Matriz4x4 M = T2 * E * T1;
+    transforma(M);
 }

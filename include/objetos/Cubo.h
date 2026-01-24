@@ -39,6 +39,18 @@ public:
     Vetor normalNoPonto(Ponto p) const;
 
     void transforma(const Matriz4x4& M);
+     void transladar(float tx, float ty, float tz);
+    void escalar(float s, Ponto ponto_fixo = Ponto(0,0,0));
+    void rotacionarX(float angulo);
+    void rotacionarY(float angulo);
+    void rotacionarZ(float angulo);
+    void cisalharX_XZ(float angulo);
+    void cisalharY_XY(float angulo);
+    void cisalharY_XZ(float angulo);
+    void cisalharZ_XY(float angulo);
+    void espelharXY();
+    void espelharXZ();
+    void espelharYZ();
     
 private:
     void inicializarMesh();

@@ -83,7 +83,7 @@ bool IntersecaoRayTriangulo(Triangulo triangulo, Ray ray, float &ti) {
     ti = t;
     return true;
 }
-
+    
 void normalTriangulo(Triangulo triangulo){
     Vetor v = triangulo.B - triangulo.A;
     Vetor u = triangulo.C - triangulo.A;

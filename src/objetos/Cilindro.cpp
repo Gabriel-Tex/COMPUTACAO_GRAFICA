@@ -153,4 +153,110 @@ void Cilindro::transforma(const Matriz4x4& M) {
     dcil = normalizar(M * dcil);
 }
 
+void Cilindro::transladar(float tx, float ty, float tz) {
+    Matriz4x4 T = Transformacao::translacao(tx, ty, tz);
+    transforma(T);
+}
+
+void Cilindro::escalar(float sx, float sy, float sz, Ponto ponto_fixo) {
+    Matriz4x4 S = Transformacao::escala(sx, sy, sz, ponto_fixo);
+    
+    CB = S * CB;
+    dcil = normalizar(S * dcil);
+    
+    Vetor vetor_raio;
+    if (fabs(dcil.x) > fabs(dcil.y)) {
+        vetor_raio = Vetor(dcil.z, 0, -dcil.x);
+    } else {
+        vetor_raio = Vetor(0, -dcil.z, dcil.y);
+    }
+    vetor_raio = normalizar(vetor_raio);
+    
+    Vetor vetor_raio_transformado = S * vetor_raio;
+    
+    float escala_raio = comprimento(vetor_raio_transformado);
+    rbCil *= escala_raio;
+    
+    Vetor dcil_transformado = S * dcil;
+    float escala_altura = comprimento(dcil_transformado);
+    altura *= escala_altura;
+}
+
+void Cilindro::rotacionarX(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    
+    Ponto base = getCentroBase(); 
+    
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 R = Transformacao::rotacaoX(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+  
+    Matriz4x4 M = T2 * R * T1;
+    
+    transforma(M);
+}
+
+void Cilindro::rotacionarY(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    
+    Ponto base = getCentroBase();  
+    
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 R = Transformacao::rotacaoY(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+  
+    Matriz4x4 M = T2 * R * T1;
+    
+    transforma(M);
+}
+
+void Cilindro::rotacionarZ(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    
+    Ponto base = getCentroBase();  
+    
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 R = Transformacao::rotacaoZ(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+  
+    Matriz4x4 M = T2 * R * T1;
+    
+    transforma(M);
+}
+
+void Cilindro::cisalharX_XZ(float angulo) {
+    Ponto base = getCentroBase();
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 C = Transformacao::cisalhamentoX_XZ(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+    Matriz4x4 M = T2 * C * T1;
+    transforma(M);
+}
+
+void Cilindro::cisalharY_XY(float angulo) {
+    Ponto base = getCentroBase();
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 C = Transformacao::cisalhamentoY_XY(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+    Matriz4x4 M = T2 * C * T1;
+    transforma(M);
+}
+
+void Cilindro::cisalharY_XZ(float angulo) {
+    Ponto base = getCentroBase();
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 C = Transformacao::cisalhamentoY_XZ(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+    Matriz4x4 M = T2 * C * T1;
+    transforma(M);
+}
+
+void Cilindro::cisalharZ_XY(float angulo) {
+    Ponto base = getCentroBase();
+    Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
+    Matriz4x4 C = Transformacao::cisalhamentoZ_XY(angulo);
+    Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
+    Matriz4x4 M = T2 * C * T1;
+    transforma(M);
+}
 

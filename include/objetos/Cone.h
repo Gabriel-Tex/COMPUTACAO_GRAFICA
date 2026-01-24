@@ -34,13 +34,26 @@ public:
     bool temTextura() const override;
     void setTextura(Textura* tex) override;
     
-    Ponto getBase() const { return CB; }
+    Ponto getCentroBase() const { return CB; }
     float getRaioBase() const { return rbCone; }
     float getAltura() const { return altura; }
     Vetor getDirecao() const { return dco; }
-    Ponto getVertice() const;
+    Ponto getVertice() const { return CB + (dco * altura); }
+    Ponto getCentroMedio() const { return CB + (dco * (altura/2)); }
 
     void transforma(const Matriz4x4& M);
+    void transladar(float tx, float ty, float tz);
+    void escalar(float sx, float sy, float sz, Ponto ponto_fixo = Ponto(0,0,0));
+    void rotacionarX(float angulo);
+    void rotacionarY(float angulo);
+    void rotacionarZ(float angulo);
+    void cisalharX_XZ(float angulo);
+    void cisalharY_XY(float angulo);
+    void cisalharY_XZ(float angulo);
+    void cisalharZ_XY(float angulo);
+    void espelharXY();
+    void espelharXZ();
+    void espelharYZ();
     
 private:
     float calcularRazao() const;

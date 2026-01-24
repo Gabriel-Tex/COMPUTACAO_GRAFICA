@@ -35,24 +35,23 @@ namespace Transformacao {
     Matriz4x4 rotacaoZ(float angulo);    
     
     // 1.4.2. Rotação em torno de eixo arbitrário
-    Matriz4x4 rotacaoEixoArbitrario(const Vetor& eixo, float angulo);
     
     // 1.4.3. Escala
-    Matriz4x4 escala(float sx, float sy, float sz);
-    Matriz4x4 escalaUniforme(float s);
+    Matriz4x4 escalaOrigem(float sx, float sy, float sz);
+    Matriz4x4 escala(float sx, float sy, float sz, Ponto ponto_fixo);
     
     // 1.4.4. Cisalhamento
-    Matriz4x4 cisalhamentoXY(float shx, float shy);
-    Matriz4x4 cisalhamentoXZ(float shx, float shz);
-    Matriz4x4 cisalhamentoYZ(float shy, float shz);
+    Matriz4x4 cisalhamentoX_XZ(float anguloGraus);
+    Matriz4x4 cisalhamentoY_XZ(float anguloGraus);
+    Matriz4x4 cisalhamentoY_XY(float anguloGraus);
+    Matriz4x4 cisalhamentoZ_XY(float anguloGraus);
     
-    // 1.4.5. Espelho em relação a planos
+    // 1.4.5. Espelho 
     Matriz4x4 espelhoXY();
     Matriz4x4 espelhoXZ();
     Matriz4x4 espelhoYZ();
     
     float grausParaRadianos(float graus);
-    float radianosParaGraus(float radianos);
 }
 
 #endif 
