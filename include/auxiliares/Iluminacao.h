@@ -5,6 +5,11 @@
 #include "Ray.h"
 #include "Vetores.h"
 #include <algorithm>
+
+#define M_PI 3.14159265358979323846
+
+enum TipoLuz { PONTUAL, DIRECIONAL, SPOT };
+
 // ============== DEFINIÇÃO DAS CLASSES ==============
 
 class Cor
@@ -31,12 +36,20 @@ public:
 class IluminacaoCena{
 public:
     // IF, IA e PF
+    TipoLuz tipo = PONTUAL;
     Cor intensidade_da_fonte;
     Cor intensidade_ambiente;
     Ponto ponto_da_fonte;
 
+    Vetor direcao_da_fonte; 
+    float cos_theta;
+
     // construtor
     IluminacaoCena(Cor IF, Cor IA, Ponto PF);
+
+    void setPontual(Ponto pos, Cor intensidade);
+    void setDirecional(Vetor dir, Cor intensidade);
+    void setSpot(Ponto pos, Vetor dir, float anguloGraus, Cor intensidade);
 };
 
 // ============== MÉTODOS ASSOCIADOS A COR ==============

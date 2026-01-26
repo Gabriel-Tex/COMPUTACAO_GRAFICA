@@ -2,10 +2,8 @@
 #include <iostream>
 #include <cmath>
 
-bool Renderiza::encontrarIntersecaoMaisProxima(const Ray& ray,
-                                                    const vector<Objeto*>& objetos,
-                                                    IntersecaoResultado& resultado,
-                                                    float EPS) {
+bool Renderiza::encontrarIntersecaoMaisProxima(const Ray& ray, const vector<Objeto*>& objetos, 
+    IntersecaoResultado& resultado, float EPS) {
     
     resultado.reset();
     
@@ -26,12 +24,8 @@ bool Renderiza::encontrarIntersecaoMaisProxima(const Ray& ray,
     return false;
 }
 
-bool Renderiza::verificarSombra(const Ponto& ponto,
-                                     const Vetor& normal,
-                                     const Vetor& direcaoLuz,
-                                     const vector<Objeto*>& objetos,
-                                     float distanciaLuz,
-                                     float EPS) {
+bool Renderiza::verificarSombra(const Ponto& ponto, const Vetor& normal, const Vetor& direcaoLuz, 
+    const vector<Objeto*>& objetos, float distanciaLuz, float EPS) {
     
     Ponto pontoSombra = ponto + (normal * EPS);
     Ray shadowRay(pontoSombra, direcaoLuz);
@@ -45,22 +39,23 @@ bool Renderiza::verificarSombra(const Ponto& ponto,
     return false;
 }
 
-Cor Renderiza::calcularIluminacaoComSombra(const Ponto& ponto,
-                                                const Vetor& normal,
-                                                const Ray& raioOriginal,
-                                                const Propriedades& props,
-                                                const IluminacaoCena& iluminacao,
-                                                const vector<Objeto*>& objetos,
-                                                int material,
-                                                int idObjeto,
-                                                float EPS) {
+Cor Renderiza::calcularIluminacaoComSombra(const Ponto& ponto, const Vetor& normal,
+    const Ray& raioOriginal, const Propriedades& props, const IluminacaoCena& iluminacao,
+    const vector<Objeto*>& objetos, int material, int idObjeto, float EPS) {
     
-    Vetor L = iluminacao.ponto_da_fonte - ponto;
-    float distanciaLuz = comprimento(L);
-    L = normalizar(L);
+    Vetor L;
+    float distanciaLuz;
+
+    if (iluminacao.tipo == DIRECIONAL) {
+        L = normalizar(iluminacao.direcao_da_fonte * -1.0f);
+        distanciaLuz = 1000000.0f; 
+    } else {
+        L = iluminacao.ponto_da_fonte - ponto;
+        distanciaLuz = comprimento(L);
+        L = normalizar(L);
+    }
     
     IluminacaoCena iluminacaoAjustada = iluminacao;
-    
     if (verificarSombra(ponto, normal, L, objetos, distanciaLuz, EPS)) {
         iluminacaoAjustada.intensidade_da_fonte = Cor(0, 0, 0);
     }
@@ -69,14 +64,9 @@ Cor Renderiza::calcularIluminacaoComSombra(const Ponto& ponto,
                         iluminacaoAjustada, material, idObjeto);
 }
 
-Cor Renderiza::calcularIluminacaoComSombraeTextura(const Ponto& ponto,
-                                                     const Vetor& normal,
-                                                     const Ray& raioOriginal,
-                                                     const Propriedades& props,
-                                                     const IluminacaoCena& iluminacao,
-                                                     const vector<Objeto*>& objetos,
-                                                     int material,
-                                                     float EPS) {
+Cor Renderiza::calcularIluminacaoComSombraeTextura(const Ponto& ponto, const Vetor& normal, 
+    const Ray& raioOriginal, const Propriedades& props, const IluminacaoCena& iluminacao, 
+    const vector<Objeto*>& objetos, int material, float EPS) {
     
     Vetor L = iluminacao.ponto_da_fonte - ponto;
     float distanciaLuz = comprimento(L);
@@ -92,11 +82,8 @@ Cor Renderiza::calcularIluminacaoComSombraeTextura(const Ponto& ponto,
                         iluminacaoAjustada, material, 0);
 }
 
-Objeto* Renderiza::encontrarObjetoMaisProximo(const Ray& ray,
-                                                   const vector<Objeto*>& objetos,
-                                                   float& t_min,
-                                                   Ponto& ponto_int,
-                                                   float EPS) {
+Objeto* Renderiza::encontrarObjetoMaisProximo(const Ray& ray, const vector<Objeto*>& objetos, 
+    float& t_min, Ponto& ponto_int, float EPS) {
     
     t_min = -1.0f;
     Objeto* obj_mais_proximo = nullptr;
@@ -118,11 +105,8 @@ Objeto* Renderiza::encontrarObjetoMaisProximo(const Ray& ray,
     return obj_mais_proximo;
 }
 
-Cor Renderiza::calcularCorFinal(const IntersecaoResultado& intersecao,
-                                     const Ray& raioOriginal,
-                                     const IluminacaoCena& iluminacao,
-                                     const vector<Objeto*>& objetos,
-                                     float EPS) {
+Cor Renderiza::calcularCorFinal(const IntersecaoResultado& intersecao, const Ray& raioOriginal, 
+    const IluminacaoCena& iluminacao, const vector<Objeto*>& objetos, float EPS) {
     
     Vetor normal = intersecao.objeto->calcularNormal(intersecao.ponto);
     
@@ -134,14 +118,12 @@ Cor Renderiza::calcularCorFinal(const IntersecaoResultado& intersecao,
         propsAjustadas.Kamb = corTextura * 0.3f; 
         
         return calcularIluminacaoComSombraeTextura(intersecao.ponto, normal, raioOriginal,
-                                               propsAjustadas, iluminacao, objetos,
-                                               intersecao.objeto->getMaterial(), EPS);
+            propsAjustadas, iluminacao, objetos, intersecao.objeto->getMaterial(), EPS);
     }
     else {
         return calcularIluminacaoComSombra(intersecao.ponto, normal, raioOriginal,
-                                          intersecao.objeto->getPropriedades(), iluminacao, objetos,
-                                          intersecao.objeto->getMaterial(), 
-                                          intersecao.objeto->getId(), EPS);
+            intersecao.objeto->getPropriedades(), iluminacao, objetos, intersecao.objeto->getMaterial(), 
+            intersecao.objeto->getId(), EPS);
     }
 }
 

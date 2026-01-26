@@ -46,7 +46,6 @@ int main() {
     camera.lookAt(eye, atpoint, uppoint);
     camera.setJanela(janela);
     camera.setDistanciaFocal(30.0f);
-
     // =========== CANVAS ===========
     Canvas canvas(500, 500);
 
@@ -151,21 +150,15 @@ int main() {
 
     // ------------------ CANOS ------------------
     Cano cano01(Ponto(245.0f, 0.0f, 300.0f), 25.0f, 90.0f, 35.0f, 20.0f, 
-        Vetor(0.0f, 1.0f, 0.0f), Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.6f, 0.6f, 0.6f),
-            Cor(0.0f, 1.0f, 0.498f)
-        ), 20.0f);
+        Vetor(0.0f, 1.0f, 0.0f), Propriedades(Cor(0.0f, 0.8f, 0.4f), Cor(0.4f, 0.4f, 0.4f), Cor(0.0f, 0.2f, 0.1f)
+        ), 40.0f);
     
     objetosComplexos.push_back(&cano01);    
     objetos.push_back(&cano01);    
 
     Cano cano02(Ponto(390.0f, 0.0f, 175.0f), 25.0f, 90.0f, 35.0f, 20.0f, 
-        Vetor(0.0f, 1.0f, 0.0f), Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.6f, 0.6f, 0.6f),
-            Cor(0.0f, 1.0f, 0.498f)
-        ), 20.0f);
+        Vetor(0.0f, 1.0f, 0.0f), Propriedades(Cor(0.0f, 0.8f, 0.4f), Cor(0.4f, 0.4f, 0.4f), Cor(0.0f, 0.2f, 0.1f)
+        ), 40.0f);
     
     objetosComplexos.push_back(&cano02);    
     objetos.push_back(&cano02);    
@@ -173,20 +166,14 @@ int main() {
 
     // ------------------ PLATAFORMAS ------------------
     Paralelepipedo plataforma01(Ponto(110.0f, 0.0f, 320.0f), 160.0f, 150.0f, 180.0f, 
-            Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f)
+            Propriedades(Cor(0.5f, 0.5f, 0.5f), Cor(0.02f, 0.02f, 0.02f), Cor(0.1f, 0.1f, 0.1f)
         ), 10);
     
     plataforma01.setTextura(&gramaTextura01);
     objetos.push_back(&plataforma01);
 
     Paralelepipedo plataforma02(Ponto(340.0f, 0.0f, 320.0f), 180.0f, 150.0f, 220.0f, 
-            Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f)
+            Propriedades(Cor(0.5f, 0.5f, 0.5f), Cor(0.02f, 0.02f, 0.02f), Cor(0.1f, 0.1f, 0.1f)
         ), 10);
     
     plataforma02.transladar(50.0f, 0.0f, 0.0f);
@@ -194,10 +181,7 @@ int main() {
     objetos.push_back(&plataforma02);
 
     Paralelepipedo plataforma03(Ponto(340.0f, 0.0f, 40.0f), 270.0f, 150.0f, 180.0f, 
-            Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f)
+            Propriedades(Cor(0.5f, 0.5f, 0.5f), Cor(0.02f, 0.02f, 0.02f), Cor(0.1f, 0.1f, 0.1f)
         ), 10);
     
     plataforma03.setTextura(&gramaTextura01);
@@ -242,30 +226,21 @@ int main() {
 
     // ------------------ BLOCOS ------------------
     Cubo bloco01(Ponto(115.0f, 175.0f, 330.0f), 30.0f, 
-        Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f)
-        ), 20);
+        Propriedades(Cor(0.7f, 0.5f, 0.1f), Cor(0.9f, 0.8f, 0.4f), Cor(0.3f, 0.2f, 0.0f)
+        ), 100);
 
     bloco01.setTextura(&blocoMarioTextura02);
     objetos.push_back(&bloco01);
 
     Cubo bloco02(Ponto(175.0f, 175.0f, 330.0f), 30.0f, 
-        Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f)
-        ), 20);
+        Propriedades(Cor(0.7f, 0.5f, 0.1f), Cor(0.9f, 0.8f, 0.4f), Cor(0.3f, 0.2f, 0.0f)
+        ), 100);
 
     bloco02.setTextura(&blocoMarioTextura02);
     objetos.push_back(&bloco02);
 
     Cubo bloco03(Ponto(145.0f, 175.0f, 330.0f), 30.0f, 
-        Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f)
+        Propriedades(Cor(0.8f, 0.8f, 0.8f), Cor(0.1f, 0.1f, 0.1f), Cor(0.2f, 0.2f, 0.2f)
         ), 20);
     
     bloco03.setEscalaTextura(0.4);
@@ -277,12 +252,9 @@ int main() {
     Plano planoChao (
         Ponto(CENARIO_CENTRO_X, 0.0f, CENARIO_CENTRO_Z),  
         Vetor(0, 1, 0), 
-        Propriedades(
-            Cor(0.8f, 0.8f, 0.8f),  
-            Cor(0.0f, 0.0f, 0.0f),
-            Cor(0.2f, 0.2f, 0.2f)
+        Propriedades(Cor(0.6f, 0.6f, 0.8f), Cor(0.4f, 0.4f, 0.4f), Cor(0.2f, 0.2f, 0.3f)
         ),
-        1
+        60
     );
     planoChao.setTextura(&texturaChao);
     objetos.push_back(&planoChao);
@@ -298,7 +270,7 @@ int main() {
         1
     );
     planoDireita.setTextura(&ceuTextura01);
-    objetos.push_back(&planoDireita);
+    //objetos.push_back(&planoDireita);
     
     Plano planoTraseira(
         Ponto(CENARIO_CENTRO_X, CENARIO_CENTRO_Y, CENARIO_TAMANHO),
@@ -311,7 +283,7 @@ int main() {
         1 
     );
     planoTraseira.setTextura(&ceuTextura01);
-    objetos.push_back(&planoTraseira);
+    //objetos.push_back(&planoTraseira);
     
     Plano planoEsquerda (
         Ponto(0.0f, CENARIO_CENTRO_Y, CENARIO_CENTRO_Z),
@@ -324,7 +296,7 @@ int main() {
         1
     );
     planoEsquerda.setTextura(&ceuTextura01);
-    objetos.push_back(&planoEsquerda);
+    //objetos.push_back(&planoEsquerda);
     
     Plano planoTeto(
         Ponto(CENARIO_CENTRO_X, CENARIO_TAMANHO, CENARIO_CENTRO_Z),
@@ -337,9 +309,9 @@ int main() {
         1
     );
     planoTeto.setTextura(&ceuTextura02);
-    objetos.push_back(&planoTeto);
+    //objetos.push_back(&planoTeto);
     
-
+    iluminacao.setDirecional(Vetor(1, -1, 1), Cor(0.8, 0.8, 0.8));
     // =========== RENDERIZAÇÃO ===========
     vector<vector<Cor>> canvasArray(canvas.nLin, vector<Cor>(canvas.nCol, canvas.bgColor));
     

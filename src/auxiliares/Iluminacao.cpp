@@ -34,59 +34,79 @@ Cor arroba(Cor A, Cor B){
     return Cor(A.r * B.r, A.g * B.g, A.b * B.b);
 }
 
-// Pt -> ponto atingido pelo ray
-// n -> vetor normal do ponto atingido
 Cor CorResultante(Ponto Pt, Vetor n, Ray ray, Propriedades prop,
     IluminacaoCena iluminacao, int m, int objeto) {
 
     Cor Intensidade_ambiente_refletida = arroba(prop.Kamb, iluminacao.intensidade_ambiente);
     Vetor dr = ray.dr;
-    // verificar se Ponto está em sombra
-    
-    // Vetor na direção da fonte
-    Vetor l = normalizar(iluminacao.ponto_da_fonte - Pt);
-    // Vetor viwer na direção do observador
+
+    Vetor l;
+    Cor IF = iluminacao.intensidade_da_fonte;
+
+    if (iluminacao.tipo == DIRECIONAL) {
+        l = normalizar(iluminacao.direcao_da_fonte * -1.0f);
+    } 
+    else { 
+        l = normalizar(iluminacao.ponto_da_fonte - Pt);
+        
+        if (iluminacao.tipo == SPOT) {
+            float cos_ponto = produto_escalar(l * -1.0f, normalizar(iluminacao.direcao_da_fonte));
+            if (cos_ponto < iluminacao.cos_theta) {
+                IF = Cor(0, 0, 0); 
+            }
+        }
+    }
+
     Vetor v = -dr;
-    // Fd = l · n = cos(θ), e θ < 90°
     float Fd = max(0.0f, produto_escalar(l, n));
 
-    // ========== I_dif = IF @ Kdif * Fd ==========
-    // I_dif = IF @ Kdif
-    Cor Intensidade_difusa = arroba(iluminacao.intensidade_da_fonte, prop.Kdif);
-    // I_dif = I_dif * Fd
-    Intensidade_difusa.r = Intensidade_difusa.r * Fd;
-    Intensidade_difusa.g = Intensidade_difusa.g * Fd;
-    Intensidade_difusa.b = Intensidade_difusa.b * Fd;
+    // I_dif = IF @ Kdif * Fd
+    Cor Intensidade_difusa = arroba(IF, prop.Kdif);
+    Intensidade_difusa.r *= Fd;
+    Intensidade_difusa.g *= Fd;
+    Intensidade_difusa.b *= Fd;
     
-    // apenas calcular especular se Kesp não for zero
     Cor Intensidade_especular(0.0f, 0.0f, 0.0f);
     if (prop.Kesp.r > 0 || prop.Kesp.g > 0 || prop.Kesp.b > 0) {
-        // Vetor reflexão 
         Vetor r = normalizar(Vetor( 2 * Fd * n.x - l.x, 
                                     2 * Fd * n.y - l.y, 
                                     2 * Fd * n.z - l.z ));
         
-        // Fe = v · r = cos(θ), e θ < 90°
         float Fe_parcial = max(0.0f, produto_escalar(v, r));
-
-        // ========== I_esp = IF @ Kesp * Fe ==========
-        // I_esp = IF @ Kesp
-        Intensidade_especular = arroba(iluminacao.intensidade_da_fonte, prop.Kesp);
-        // Fe = (v * r)^m
         float Fe = pow(Fe_parcial, m);
-        // I_esp = I_esp * Fe
-        Intensidade_especular.r = Intensidade_especular.r * Fe;
-        Intensidade_especular.g = Intensidade_especular.g * Fe;
-        Intensidade_especular.b = Intensidade_especular.b * Fe;
+
+        Intensidade_especular = arroba(IF, prop.Kesp);
+        Intensidade_especular.r *= Fe;
+        Intensidade_especular.g *= Fe;
+        Intensidade_especular.b *= Fe;
     }
     
-    // Internsidade que chega ao observador
     Cor Intensidade_observada;
     Intensidade_observada.r = min(1.0f, Intensidade_ambiente_refletida.r + Intensidade_difusa.r + Intensidade_especular.r);
     Intensidade_observada.g = min(1.0f, Intensidade_ambiente_refletida.g + Intensidade_difusa.g + Intensidade_especular.g);
     Intensidade_observada.b = min(1.0f, Intensidade_ambiente_refletida.b + Intensidade_difusa.b + Intensidade_especular.b);
     
     return Intensidade_observada;
+}
+
+void IluminacaoCena::setPontual(Ponto pos, Cor intensidade) {
+    tipo = PONTUAL;
+    ponto_da_fonte = pos;
+    intensidade_da_fonte = intensidade;
+}
+
+void IluminacaoCena::setDirecional(Vetor dir, Cor intensidade) {
+    tipo = DIRECIONAL;
+    direcao_da_fonte = normalizar(dir);
+    intensidade_da_fonte = intensidade;
+}
+
+void IluminacaoCena::setSpot(Ponto pos, Vetor dir, float anguloGraus, Cor intensidade) {
+    tipo = SPOT;
+    ponto_da_fonte = pos;
+    direcao_da_fonte = normalizar(dir);
+    intensidade_da_fonte = intensidade;
+    cos_theta = cos(anguloGraus * M_PI / 180.0f);
 }
 
 Cor operator*(Cor cor, float X){

@@ -13,7 +13,7 @@ public:
     size_t nCol, nLin;
     // cor do background
     Cor bgColor;
-    Canvas(size_t C, size_t L, Cor background = Cor(0.5f, 0.5f, 0.5f));
+    Canvas(size_t C, size_t L, Cor background = Cor(0.5f, 0.7f, 1.0f));
 };
 
 // ============== MÉTODOS ASSOCIADOS A CANVAS ==============
