@@ -1,10 +1,9 @@
 #include "objetos/SemiEsfera.h"
 #include <cmath>
 
-SemiEsfera::SemiEsfera(Ponto centro, float raio, Vetor direcao, Propriedades props, int materialId, int m, bool temBase)
+SemiEsfera::SemiEsfera(Ponto centro, float raio, Vetor direcao, Propriedades props, int m, bool temBase)
     : centro(centro), raio(raio), direcao(normalizar(direcao)), 
-      props(props), m(m), temBase(temBase), 
-      textura(nullptr), temTexturaFlag(false) {}
+      props(props), m(m), temBase(temBase) {}
 
 bool SemiEsfera::intersecta(const Ray& ray, float& t) const {
     const float EPS = 1e-4f;
@@ -21,9 +20,12 @@ bool SemiEsfera::intersecta(const Ray& ray, float& t) const {
         float t1 = (-b - sqrtDelta) / (2.0f * a);
         float t2 = (-b + sqrtDelta) / (2.0f * a);
 
+        // filtragem da metade da esfera
         for (float temp_t : {t1, t2}) {
             if (temp_t > EPS) {
+                // P(t) = P_0 + t * dr
                 Ponto P = ray.P_0 + (ray.dr * temp_t);
+                // guarda coomo t válidos somente da parte superior da esfera
                 if (produto_escalar(P - centro, direcao) >= 0) {
                     ts_validos.push_back(temp_t);
                 }
@@ -31,6 +33,7 @@ bool SemiEsfera::intersecta(const Ray& ray, float& t) const {
         }
     }
 
+    // base da semiesfera
     if (temBase) {
         Vetor n_base = -direcao; 
         float denom = produto_escalar(ray.dr, n_base);
@@ -50,6 +53,7 @@ bool SemiEsfera::intersecta(const Ray& ray, float& t) const {
     return true;
 }
 
+// calculando normal
 Vetor SemiEsfera::calcularNormal(const Ponto& p) const {
     const float EPS = 1e-3f;
     Vetor v = p - centro;
@@ -61,22 +65,8 @@ Vetor SemiEsfera::calcularNormal(const Ponto& p) const {
     return normalizar(v);
 }
 
-void SemiEsfera::setTextura(Textura* tex) {
-    textura = tex;
-    temTexturaFlag = (tex != nullptr);
-}
 
-Cor SemiEsfera::getCorTextura(const Ponto& ponto) const {
-    if (temTexturaFlag && textura != nullptr) {
-        Vetor n = normalizar(ponto - centro);
-        float u = 0.5f + (atan2(n.z, n.x) / (2.0f * M_PI));
-        float v = 0.5f - (asin(n.y) / M_PI);
-        return textura->amostrar(u, v);
-    }
-    return props.Kdif;
-}
-
-// ========== TRANSFORMACÕES ==========
+// ========== MATRIZES DE TRANSFORMAÇÕES ==========
 
 void SemiEsfera::transforma(const Matriz4x4& M) {
     Ponto p0(0, 0, 0);

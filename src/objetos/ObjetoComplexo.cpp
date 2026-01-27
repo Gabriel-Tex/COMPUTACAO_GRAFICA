@@ -78,7 +78,7 @@ Cor ObjetoComplexo::getCorTextura(const Ponto& ponto) const {
     return props.Kdif;
 }
 
-// ================= TRANSFORMACÕES =================
+// ================= MATRIZES DE TRANSFORMACÕES =================
 
 void ObjetoComplexo::transforma(const Matriz4x4& M) {
     for (auto comp : componentes) {

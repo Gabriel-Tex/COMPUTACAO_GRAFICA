@@ -6,20 +6,26 @@ Cano::Cano(Ponto baseCentral, float raioCorpo, float alturaCorpo,
     
     Vetor d = normalizar(direcao);
 
+    // gambiarra para aplicar a escala ao cano
     this->eixoArmazenado = d;
     this->alturaArmazenada = alturaCorpo;
 
+    // cilindro maior
     Cilindro* corpo = new Cilindro(baseCentral, raioCorpo, alturaCorpo, d, prop, m, true, false);
     adicionarComponente(corpo);
 
-    Ponto inicioBorda = baseCentral + (d * (alturaCorpo + 0.001f));
+    // cilindro menor começa no topo do cilindro maior
+    Ponto inicioBorda = baseCentral + (d * alturaCorpo );
     
+    // cilindro menor
     Cilindro* borda = new Cilindro(inicioBorda, raioBorda, alturaBorda, d, prop, m, true, false);
     adicionarComponente(borda);
 
     this->props = prop;
     this->materialId = m;
 }
+
+// ============= MATRIZES DE TRANSFORMAÇÃO =============
 
 void Cano::transforma(const Matriz4x4& M) {
     this->baseCentral = M * this->baseCentral;

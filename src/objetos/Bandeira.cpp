@@ -3,15 +3,18 @@
 Bandeira::Bandeira(Ponto baseHaste, float alturaHaste, int m)
     : baseHaste(baseHaste), alturaHaste(alturaHaste), m(m) {
 
-    float raioHaste = 2.0f;
+    // definindo dimensões da bandeira
+    float raioHaste = 2.0f; 
     float raioEsfera = 3.0f;
-    float larguraBandeira = 20.0f;
-    float alturaBandeira = 20.0f;
+    float larguraBandeira = 20.0f; // altura do triângulo
+    float alturaBandeira = 20.0f; // tamanho da base do triângulo
 
+    // materiais dos componentes da bandeira
     Propriedades propCinza(Cor(0.7f, 0.7f, 0.7f), Cor(0.5f, 0.5f, 0.5f), Cor(0.2f, 0.2f, 0.2f)); 
     Propriedades propDourado(Cor(0.8f, 0.6f, 0.2f), Cor(0.9f, 0.8f, 0.4f), Cor(0.3f, 0.2f, 0.1f)); 
     Propriedades propVermelho(Cor(0.9f, 0.0f, 0.0f), Cor(0.2f, 0.2f, 0.2f), Cor(0.1f, 0.0f, 0.0f)); 
 
+    // haste - cilindro cinza com topo e base cujo eixo é paralelo ao eixo Y
     Cilindro* haste = new Cilindro(
         baseHaste, 
         raioHaste, 
@@ -24,7 +27,7 @@ Bandeira::Bandeira(Ponto baseHaste, float alturaHaste, int m)
     );
     adicionarComponente(haste);
 
-   
+   // esfera dourada contida no topo da haste (ponto da base + altura)
     Ponto topoHaste = baseHaste + (Vetor(0, 1, 0) * alturaHaste);
     Esfera* ponteira = new Esfera(
         raioEsfera, 
@@ -35,10 +38,16 @@ Bandeira::Bandeira(Ponto baseHaste, float alturaHaste, int m)
     );
     adicionarComponente(ponteira);
 
+    // vértices do triângulo definidos com base na haste
+        // vértice A começa no topo da haste, na superfície do cilindro
     Ponto A = topoHaste + Vetor(raioHaste, 0, 0); 
-    Ponto B = topoHaste + Vetor(raioHaste, -alturaBandeira, 0);
+    // vértice B permanece na superfície do cilindro, mas a uma distância de (alturaBandeira) de A
+    Ponto B = topoHaste + Vetor(raioHaste, -alturaBandeira, 0); 
+    // vértice C é a ponta da bandeira, a uma distância de (larguraBandeira) da haste
+// e formando um triângulo isóceles 
     Ponto C = topoHaste + Vetor(raioHaste + larguraBandeira, -alturaBandeira / 2.0f, 0);
 
+    // cálculo da normal do triângulo
     Vetor nTri = normalizar(produto_vetorial(B - A, C - A));
 
     Triangulo* triangulo = new Triangulo(A, B, C, nTri, propVermelho, m);
@@ -46,6 +55,8 @@ Bandeira::Bandeira(Ponto baseHaste, float alturaHaste, int m)
 
     this->m = m; 
 }
+
+// ============= MATRIZES DE TRANSFORMAÇÃO =============
 
 void Bandeira::transforma(const Matriz4x4& M) {
     this->baseHaste = M * this->baseHaste;

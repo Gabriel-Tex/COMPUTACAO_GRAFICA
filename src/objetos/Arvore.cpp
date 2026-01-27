@@ -3,9 +3,11 @@
 Arvore::Arvore(Ponto baseTronco, float alturaTronco, float raioTronco, float raioCopa, int m)
     : baseTronco(baseTronco), alturaTronco(alturaTronco), raioTronco(raioTronco), raioCopa(raioCopa), m(m) {
     
+        // materiais da árvore
     Propriedades propMarrom(Cor(0.4f, 0.2f, 0.1f), Cor(0.1f, 0.1f, 0.1f), Cor(0.05f, 0.05f, 0.05f));
     Propriedades propVerde(Cor(0.1f, 0.4f, 0.1f), Cor(0.2f, 0.2f, 0.2f), Cor(0.05f, 0.1f, 0.05f));
 
+    // tronco da árvore - cilindro marrom com topo e base cujo eixo é paralelo ao eixo Y 
     Cilindro* tronco = new Cilindro(
         baseTronco, 
         raioTronco, 
@@ -13,11 +15,12 @@ Arvore::Arvore(Ponto baseTronco, float alturaTronco, float raioTronco, float rai
         Vetor(0, 1, 0), 
         propMarrom, 
         m, 
-        true,  // temBase
-        false  // temTopo
+        true,  
+        true 
     );
     adicionarComponente(tronco);
 
+    // copa da árvore começa no topo do tronco (ponto da base + altura)
     Ponto centroCopa = baseTronco + Vetor(0, alturaTronco, 0);
     
     SemiEsfera* copa = new SemiEsfera(
@@ -31,11 +34,11 @@ Arvore::Arvore(Ponto baseTronco, float alturaTronco, float raioTronco, float rai
     adicionarComponente(copa);
 }
 
+// ============= MATRIZES DE TRANSFORMAÇÃO =============
+
 void Arvore::transforma(const Matriz4x4& M) {
-    // Atualiza o ponto de referência global da árvore
     this->baseTronco = M * this->baseTronco;
     
-    // Propaga a transformação para todos os componentes (Cilindro e SemiEsfera)
     for (auto comp : componentes) {
         comp->transforma(M);
     }
@@ -47,14 +50,11 @@ void Arvore::transladar(float tx, float ty, float tz) {
 }
 
 void Arvore::escalar(float s) {
-    // Usamos a base do tronco como ponto fixo para que a árvore cresça a partir do chão
-    // sem "voar" ou afundar.
     Matriz4x4 S = Transformacao::escala(s, s, s, baseTronco);
     this->transforma(S);
 }
 
 void Arvore::rotacionarX(float anguloGraus) {
-    // Reutiliza a lógica de ObjetoComplexo usando a baseTronco como pivô
     ObjetoComplexo::rotacionarX(anguloGraus, baseTronco);
 }
 

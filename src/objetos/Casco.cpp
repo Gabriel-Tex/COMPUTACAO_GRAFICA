@@ -3,34 +3,41 @@
 Casco::Casco(Ponto centroBase, float raioCasco, int m)
     : centroBase(centroBase), raioCasco(raioCasco), m(m) {
 
+    // materiais do casco
     Propriedades propVermelho(Cor(0.8f, 0.05f, 0.05f), Cor(0.3f, 0.1f, 0.1f), Cor(0.1f, 0.05f, 0.05f));
     Propriedades propCinza(Cor(0.6f, 0.6f, 0.6f), Cor(0.4f, 0.4f, 0.4f), Cor(0.2f, 0.2f, 0.2f));
 
+    // semiesfera vermelha correspondente à estrutura do casco
     SemiEsfera* casco = new SemiEsfera(
         centroBase, 
         raioCasco, 
         Vetor(0, 1, 0), 
         propVermelho, 
-        m, 
         m,    
         true
     );
     adicionarComponente(casco);
 
+    // proporção entre casco e espinho
     float alturaEspinho = raioCasco * 0.4f;
     float raioBaseEspinho = raioCasco * 0.15f;
 
+    // topo do casco - base da semiesfera + raio da semiesfera
     Ponto topo = centroBase + Vetor(0, raioCasco, 0);
+    // adiciona um espinho no meio do casco
     adicionarComponente(new Cone(topo, raioBaseEspinho, alturaEspinho, Vetor(0, 1, 0), propCinza, m));
 
     float anguloInclinacao = M_PI / 4.0f; 
     float r_horizontal = raioCasco * sin(anguloInclinacao);
     float y_local = raioCasco * cos(anguloInclinacao);
 
+    // adiciona mais 4 espinhos em uma inclinação de 45 graus
     for (int i = 0; i < 4; i++) {
         float theta = i * (M_PI / 2.0f); 
         
+        // direção do eixo do cone
         Vetor dirEspinho(cos(theta) * sin(anguloInclinacao), cos(anguloInclinacao), sin(theta) * sin(anguloInclinacao));
+        // posição do cone - base da semiesfera + raio inclinado da semiesfera 
         Ponto posEspinho = centroBase + (dirEspinho * raioCasco);
 
         adicionarComponente(new Cone(
@@ -46,6 +53,7 @@ Casco::Casco(Ponto centroBase, float raioCasco, int m)
     this->m = m;
 }
 
+// ================ MATRIZES DE TRANSFORMAÇÃO ================
 
 void Casco::transforma(const Matriz4x4& M) {
     this->centroBase = M * this->centroBase;

@@ -4,6 +4,7 @@ Cogumelo::Cogumelo(Ponto centroConexao, float raioCaule, float raioChapeu, int m
     
     this->centroBase = centroConexao;
 
+    // materiais do cogumelo
     Propriedades propBege(
         Cor(0.9f, 0.8f, 0.6f), 
         Cor(0.2f, 0.2f, 0.2f), 
@@ -16,6 +17,7 @@ Cogumelo::Cogumelo(Ponto centroConexao, float raioCaule, float raioChapeu, int m
         Cor(0.1f, 0.0f, 0.0f)  
     );
 
+    // semiesfera inferior
     SemiEsfera* caule = new SemiEsfera(
         centroConexao, 
         raioCaule, 
@@ -26,6 +28,7 @@ Cogumelo::Cogumelo(Ponto centroConexao, float raioCaule, float raioChapeu, int m
     );
     adicionarComponente(caule);
 
+    // semisfera superior
     SemiEsfera* chapeu = new SemiEsfera(
         centroConexao, 
         raioChapeu, 
@@ -39,6 +42,8 @@ Cogumelo::Cogumelo(Ponto centroConexao, float raioCaule, float raioChapeu, int m
     this->props = propVermelho;
     this->m = m;
 }
+
+// ================ MATRIZES DE TRANSFORMAÇÃO ================
 
 void Cogumelo::transforma(const Matriz4x4& M) {
     this->centroBase = M * this->centroBase;
