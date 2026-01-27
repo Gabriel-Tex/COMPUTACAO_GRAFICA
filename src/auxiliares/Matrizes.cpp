@@ -98,8 +98,6 @@ Matriz4x4 Transformacao::rotacaoZ(float angulo) {
     return R;
 }
 
-// Rotação em torno de eixo arbitrário
-
 // Escala
 Matriz4x4 Transformacao::escalaOrigem(float sx, float sy, float sz) {
 
@@ -121,35 +119,32 @@ Matriz4x4 Transformacao::escala(float sx, float sy, float sz, Ponto ponto_fixo) 
 }
 
 // Cisalhamento
-Matriz4x4 Transformacao::cisalhamentoX_XZ(float anguloGraus) {
-    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+Matriz4x4 Transformacao::cisalhamentoX_XZ(float angulo) {
+    
     
     Matriz4x4 C;
-    C.m[0][1] = tan(anguloRad);
+    C.m[0][1] = tan(angulo);
     return C;
 }
 
-Matriz4x4 Transformacao::cisalhamentoY_XZ(float anguloGraus) {
-    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+Matriz4x4 Transformacao::cisalhamentoY_XZ(float angulo) {
     
     Matriz4x4 C;
-    C.m[1][0] = tan(anguloRad);
+    C.m[1][0] = tan(angulo);
     return C;
 }
 
-Matriz4x4 Transformacao::cisalhamentoY_XY(float anguloGraus) {
-    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+Matriz4x4 Transformacao::cisalhamentoY_XY(float angulo) {
     
     Matriz4x4 C;
-    C.m[1][2] = tan(anguloRad);
+    C.m[1][2] = tan(angulo);
     return C;
 }
 
-Matriz4x4 Transformacao::cisalhamentoZ_XY(float anguloGraus) {
-    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+Matriz4x4 Transformacao::cisalhamentoZ_XY(float angulo) {
     
     Matriz4x4 C;
-    C.m[2][1] = tan(anguloRad);
+    C.m[2][1] = tan(angulo);
     return C;
 }
 
@@ -173,18 +168,17 @@ Matriz4x4 Transformacao::espelhamentoYZ() {
 }
 
 // Rotação em torno de eixo arbitrário (origem)
-Matriz4x4 Transformacao::rotacaoEixoArbitrarioOrigem(const Vetor& eixo, float anguloGraus) {
-    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
-    Quaternio q = Quaternio::criarQuaternio(eixo, anguloRad);
-    
+Matriz4x4 Transformacao::rotacaoEixoArbitrarioOrigem(const Vetor& eixo, float angulo) {
+    Vetor eixoNormalizado = normalizar(eixo);
+
+    Quaternio q = Quaternio::criarQuaternio(eixoNormalizado, angulo); 
     return q.paraMatriz();
 }
 
 // Rotação em torno de eixo arbitrário
-Matriz4x4 Transformacao::rotacaoEixoArbitrarioPonto(const Vetor& eixo, float anguloGraus, Ponto ponto) {
-    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+Matriz4x4 Transformacao::rotacaoEixoArbitrarioPonto(const Vetor& eixo, float angulo, Ponto ponto) {
     Matriz4x4 T1 = translacao(-ponto.x, -ponto.y, -ponto.z);
-    Matriz4x4 R = rotacaoEixoArbitrarioOrigem(eixo, anguloRad);
+    Matriz4x4 R = rotacaoEixoArbitrarioOrigem(eixo, angulo);
     Matriz4x4 T2 = translacao(ponto.x, ponto.y, ponto.z);
     
     return T2 * R * T1;

@@ -40,6 +40,14 @@ public:
     void rotacionarY(float anguloGraus, Ponto ponto_fixo);
     void rotacionarX(float anguloGraus, Ponto ponto_fixo);
     void rotacionarZ(float anguloGraus, Ponto ponto_fixo);
+    void rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto_fixo);
+    void cisalharX_XZ(float anguloGraus, Ponto ponto_fixo);
+    void cisalharY_XZ(float anguloGraus, Ponto ponto_fixo);
+    void cisalharY_XY(float anguloGraus, Ponto ponto_fixo);
+    void cisalharZ_XY(float anguloGraus, Ponto ponto_fixo);
+    void espelharXY();
+    void espelharXZ();
+    void espelharYZ();
 };
 
 #endif

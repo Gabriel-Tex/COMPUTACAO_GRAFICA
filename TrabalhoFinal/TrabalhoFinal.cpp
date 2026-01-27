@@ -92,7 +92,7 @@ int main() {
 
     // ------------------ COGUMELO ------------------
     Cogumelo cogumelo01(Ponto(145.0f, 200.0f, 330.0f), 10.0f, 13.0f, 15.0f);
-
+    
     objetosComplexos.push_back(&cogumelo01);
     objetos.push_back(&cogumelo01);
 
@@ -190,33 +190,24 @@ int main() {
 
     // ------------------ CAMINHOS ------------------
     Paralelepipedo caminho01(Ponto(110.0f, 50.0f, 185.0f), 25.0f, 25.0f, 80.0f, 
-            Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f)
-        ), 10);
+            Propriedades(Cor(0.8f, 0.8f, 0.8f), Cor(0.1f, 0.1f, 0.1f), Cor(0.2f, 0.2f, 0.2f)
+        ), 5);
     
     caminho01.setEscalaTextura(0.4f);
     caminho01.setTextura(&tijoloMarioTextura01);
     objetos.push_back(&caminho01);
 
     Paralelepipedo caminho02(Ponto(110.0f, 50.0f, 90.0f), 25.0f, 25.0f, 50.0f, 
-            Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f)
-        ), 10);
+            Propriedades(Cor(0.8f, 0.8f, 0.8f), Cor(0.1f, 0.1f, 0.1f), Cor(0.2f, 0.2f, 0.2f)
+        ), 5);
     
     caminho02.setEscalaTextura(0.4f);
     caminho02.setTextura(&tijoloMarioTextura01);
     objetos.push_back(&caminho02);
 
     Paralelepipedo caminho03(Ponto(180.0f, 50.0f, 75.0f), 25.0f, 25.0f, 50.0f, 
-            Propriedades(
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f),
-            Cor(0.0f, 1.0f, 0.498f)
-        ), 10);
+            Propriedades(Cor(0.8f, 0.8f, 0.8f), Cor(0.1f, 0.1f, 0.1f), Cor(0.2f, 0.2f, 0.2f)
+        ), 5);
     
     caminho03.rotacionarY(90.0f);
     caminho03.setEscalaTextura(0.4f);

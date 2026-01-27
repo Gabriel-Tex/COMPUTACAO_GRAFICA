@@ -35,6 +35,17 @@ public:
     virtual Cor getCorTextura(const Ponto& ponto) const override;
 
     virtual void transforma(const Matriz4x4& M) override;
+    void transladar(float tx, float ty, float tz);
+    void escalar(float s, Ponto ponto_fixo); 
+    
+    void rotacionarX(float anguloGraus);
+    void rotacionarY(float anguloGraus);
+    void rotacionarZ(float anguloGraus);
+    void rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto);
+
+    void espelharXY();
+    void espelharXZ();
+    void espelharYZ();
 };
 
 #endif

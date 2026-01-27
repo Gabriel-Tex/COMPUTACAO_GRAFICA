@@ -28,6 +28,26 @@ public:
     virtual int getId() const override { return 0; }
     
     virtual void transforma(const Matriz4x4& M) override;
+    void transladar(float tx, float ty, float tz);
+    void escalar(float sx, float sy, float sz, Ponto ponto_fixo);
+    
+    void rotacionarX(float anguloGraus);
+    void rotacionarY(float anguloGraus);
+    void rotacionarZ(float anguloGraus);
+    void rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto);
+
+    void cisalharX_XZ(float anguloGraus);
+    void cisalharY_XZ(float anguloGraus);
+    void cisalharY_XY(float anguloGraus);
+    void cisalharZ_XY(float anguloGraus);
+
+    void espelharXY();
+    void espelharXZ();
+    void espelharYZ();
+
+    Ponto getCentroBaricentrico() const {
+        return Ponto((A.x + B.x + C.x) / 3.0f, (A.y + B.y + C.y) / 3.0f, (A.z + B.z + C.z) / 3.0f);
+    }
 };
 
 // ============== MÉTODOS ASSOCIADOS AO TRIÂNGULO ==============

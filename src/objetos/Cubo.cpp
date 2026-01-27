@@ -167,37 +167,41 @@ void Cubo::rotacionarZ(float anguloGraus) {
     transforma(M);
 }
 
-void Cubo::cisalharX_XZ(float angulo) {
+void Cubo::cisalharX_XZ(float anguloGraus) {
     Ponto base = getCentro();
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
     Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
-    Matriz4x4 C = Transformacao::cisalhamentoX_XZ(angulo);
+    Matriz4x4 C = Transformacao::cisalhamentoX_XZ(anguloRad);
     Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
     Matriz4x4 M = T2 * C * T1;
     transforma(M);
 }
 
-void Cubo::cisalharY_XY(float angulo) {
+void Cubo::cisalharY_XY(float anguloGraus) {
     Ponto base = getCentro();
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
     Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
-    Matriz4x4 C = Transformacao::cisalhamentoY_XY(angulo);
+    Matriz4x4 C = Transformacao::cisalhamentoY_XY(anguloRad);
     Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
     Matriz4x4 M = T2 * C * T1;
     transforma(M);
 }
 
-void Cubo::cisalharY_XZ(float angulo) {
+void Cubo::cisalharY_XZ(float anguloGraus) {
     Ponto base = getCentro();
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
     Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
-    Matriz4x4 C = Transformacao::cisalhamentoY_XZ(angulo);
+    Matriz4x4 C = Transformacao::cisalhamentoY_XZ(anguloRad);
     Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
     Matriz4x4 M = T2 * C * T1;
     transforma(M);
 }
 
-void Cubo::cisalharZ_XY(float angulo) {
+void Cubo::cisalharZ_XY(float anguloGraus) {
     Ponto base = getCentro();
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
     Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
-    Matriz4x4 C = Transformacao::cisalhamentoZ_XY(angulo);
+    Matriz4x4 C = Transformacao::cisalhamentoZ_XY(anguloRad);
     Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
     Matriz4x4 M = T2 * C * T1;
     transforma(M);
@@ -219,7 +223,8 @@ void Cubo::espelharYZ() {
 }
 
 void Cubo::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto) {
-    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloGraus, ponto);
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloRad, ponto);
     transforma(R);
 }
 

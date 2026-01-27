@@ -76,6 +76,10 @@ public:
     void rotacionarEmZ(float anguloGraus);
     void zoom(float fator);
 
+    void moverComAtPointFixo(const Vetor& deslocamento);
+    void moverFrenteComAtPointFixo(float distancia);
+    void moverDireitaComAtPointFixo(float distancia);
+    void moverCimaComAtPointFixo(float distancia);
     
 private:
     // calcula ponto na janela

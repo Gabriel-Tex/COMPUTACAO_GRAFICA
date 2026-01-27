@@ -59,7 +59,98 @@ void Triangulo::transforma(const Matriz4x4& M) {
     A = M * A;
     B = M * B;
     C = M * C;
-    n = normalizar(M * n); 
+
+    Vetor aresta1 = B - A;
+    Vetor aresta2 = C - A;
+    
+    n = normalizar(produto_vetorial(aresta1, aresta2));
+}
+
+void Triangulo::transladar(float tx, float ty, float tz) {
+    transforma(Transformacao::translacao(tx, ty, tz));
+}
+
+void Triangulo::escalar(float sx, float sy, float sz, Ponto ponto_fixo) {
+    transforma(Transformacao::escala(sx, sy, sz, ponto_fixo));
+}
+
+void Triangulo::rotacionarX(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto centro = getCentroBaricentrico();
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R  = Transformacao::rotacaoX(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    transforma(T2 * R * T1);
+}
+
+void Triangulo::rotacionarY(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto centro = getCentroBaricentrico();
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R  = Transformacao::rotacaoY(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    transforma(T2 * R * T1);
+}
+
+void Triangulo::rotacionarZ(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto centro = getCentroBaricentrico();
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R  = Transformacao::rotacaoZ(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    transforma(T2 * R * T1);
+}
+
+void Triangulo::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloRad, ponto);
+    transforma(R);
+}
+
+void Triangulo::cisalharX_XZ(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto centro = getCentroBaricentrico();
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoX_XZ(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    transforma(T2 * C * T1);
+}
+
+void Triangulo::cisalharY_XZ(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto c = getCentroBaricentrico();
+    Matriz4x4 T1 = Transformacao::translacao(-c.x, -c.y, -c.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoY_XZ(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(c.x, c.y, c.z);
+    transforma(T2 * C * T1);
+}
+
+void Triangulo::cisalharY_XY(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto c = getCentroBaricentrico();
+    Matriz4x4 T1 = Transformacao::translacao(-c.x, -c.y, -c.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoY_XY(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(c.x, c.y, c.z);
+    transforma(T2 * C * T1);
+}
+
+void Triangulo::cisalharZ_XY(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto c = getCentroBaricentrico();
+    Matriz4x4 T1 = Transformacao::translacao(-c.x, -c.y, -c.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoZ_XY(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(c.x, c.y, c.z);
+    transforma(T2 * C * T1);
+}
+
+void Triangulo::espelharXY() { 
+    transforma(Transformacao::espelhamentoXY()); 
+}
+void Triangulo::espelharXZ() { 
+    transforma(Transformacao::espelhamentoXZ()); 
+}
+void Triangulo::espelharYZ() { 
+    transforma(Transformacao::espelhamentoYZ()); 
 }
 
 bool IntersecaoRayTriangulo(Triangulo triangulo, Ray ray, float &ti) {

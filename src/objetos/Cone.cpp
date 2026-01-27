@@ -147,20 +147,13 @@ float Cone::calcularRazao() const {
 
 void Cone::transforma(const Matriz4x4& M) {
     CB = M * CB;
-    dco = normalizar(M * dco);
-}
 
-void Cone::transladar(float tx, float ty, float tz) {
-    Matriz4x4 T = Transformacao::translacao(tx, ty, tz);
-    transforma(T);
-}
+    Vetor dco_com_altura = dco * altura;
+    Vetor dco_transformado = M * dco_com_altura; 
+    
+    this->altura = comprimento(dco_transformado);
+    this->dco = normalizar(dco_transformado);
 
-void Cone::escalar(float sx, float sy, float sz, Ponto ponto_fixo) {
-    Matriz4x4 S = Transformacao::escala(sx, sy, sz, ponto_fixo);
-    
-    CB = S * CB;
-    dco = normalizar(S * dco);
-    
     Vetor vetor_raio;
     if (fabs(dco.x) > fabs(dco.y)) {
         vetor_raio = Vetor(dco.z, 0, -dco.x);
@@ -169,14 +162,20 @@ void Cone::escalar(float sx, float sy, float sz, Ponto ponto_fixo) {
     }
     vetor_raio = normalizar(vetor_raio);
     
-    Vetor vetor_raio_transformado = S * vetor_raio;
+    Vetor raio_transformado = M * (vetor_raio * rbCone);
     
-    float escala_raio = comprimento(vetor_raio_transformado);
-    rbCone *= escala_raio;
-   
-    Vetor dco_transformado = S * dco;
-    float escala_altura = comprimento(dco_transformado);
-    altura *= escala_altura;
+    this->rbCone = comprimento(raio_transformado);
+}
+
+void Cone::transladar(float tx, float ty, float tz) {
+    Matriz4x4 T = Transformacao::translacao(tx, ty, tz);
+    transforma(T);
+}
+
+void Cone::escalar(float sx, float sy, float sz, Ponto ponto_fixo) {
+
+    Matriz4x4 S = Transformacao::escala(sx, sy, sz, ponto_fixo);
+    this->transforma(S);
 }
 
 void Cone::rotacionarX(float anguloGraus) {
@@ -209,42 +208,45 @@ void Cone::rotacionarZ(float anguloGraus) {
     transforma(M);
 }
 
-void Cone::cisalharX_XZ(float angulo) {
+void Cone::cisalharX_XZ(float anguloGraus) {
     Ponto base = getCentroBase();
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
     Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
-    Matriz4x4 C = Transformacao::cisalhamentoX_XZ(angulo);
+    Matriz4x4 C = Transformacao::cisalhamentoX_XZ(anguloRad);
     Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
     Matriz4x4 M = T2 * C * T1;
     transforma(M);
 }
 
-void Cone::cisalharY_XY(float angulo) {
+void Cone::cisalharY_XY(float anguloGraus) {
     Ponto base = getCentroBase();
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
     Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
-    Matriz4x4 C = Transformacao::cisalhamentoY_XY(angulo);
+    Matriz4x4 C = Transformacao::cisalhamentoY_XY(anguloRad);
     Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
     Matriz4x4 M = T2 * C * T1;
     transforma(M);
 }
 
-void Cone::cisalharY_XZ(float angulo) {
+void Cone::cisalharY_XZ(float anguloGraus) {
     Ponto base = getCentroBase();
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
     Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
-    Matriz4x4 C = Transformacao::cisalhamentoY_XZ(angulo);
+    Matriz4x4 C = Transformacao::cisalhamentoY_XZ(anguloRad);
     Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
     Matriz4x4 M = T2 * C * T1;
     transforma(M);
 }
 
-void Cone::cisalharZ_XY(float angulo) {
+void Cone::cisalharZ_XY(float anguloGraus) {
     Ponto base = getCentroBase();
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
     Matriz4x4 T1 = Transformacao::translacao(-base.x, -base.y, -base.z);
-    Matriz4x4 C = Transformacao::cisalhamentoZ_XY(angulo);
+    Matriz4x4 C = Transformacao::cisalhamentoZ_XY(anguloRad);
     Matriz4x4 T2 = Transformacao::translacao(base.x, base.y, base.z);
     Matriz4x4 M = T2 * C * T1;
     transforma(M);
 }
-
 void Cone::espelharXY() {
     Matriz4x4 E = Transformacao::espelhamentoXY();
     transforma(E);
@@ -261,7 +263,8 @@ void Cone::espelharYZ() {
 }
 
 void Cone::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto) {
-    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloGraus, ponto);
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloRad, ponto);
     transforma(R);
 }
 

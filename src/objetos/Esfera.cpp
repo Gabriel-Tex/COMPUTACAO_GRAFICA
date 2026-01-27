@@ -76,6 +76,18 @@ void Esfera::setTextura(Textura* tex) {
 
 void Esfera::transforma(const Matriz4x4& M) {
     cEsfera = M * cEsfera;
+
+    Ponto pOrigem(0, 0, 0);
+    Ponto pUnitario(1, 0, 0);
+
+    Ponto pOrigemT = M * pOrigem;
+    Ponto pUnitarioT = M * pUnitario;
+
+    float escala = comprimento(pUnitarioT - pOrigemT);
+
+    if (fabs(escala - 1.0f) > 1e-5f) {
+        rEsfera *= escala;
+    }
 }
 
 void Esfera::transladar(float tx, float ty, float tz) {
@@ -132,6 +144,7 @@ void Esfera::espelharYZ() {
 }
 
 void Esfera::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto) {
-    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloGraus, ponto);
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloRad, ponto);
     transforma(R);
 }

@@ -141,6 +141,7 @@ void Plano::espelharYZ() {
 }
 
 void Plano::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto) {
-    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloGraus, ponto);
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloRad, ponto);
     transforma(R);
 }

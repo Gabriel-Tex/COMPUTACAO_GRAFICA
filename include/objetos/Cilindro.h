@@ -9,7 +9,8 @@
 #define M_PI 3.14159265358979323846
 
 class Cilindro : public Objeto {
-private:
+public:
+
     Ponto CB;
     float rbCil;
     float altura;
@@ -22,7 +23,6 @@ private:
     bool temBase;
     bool temTopo;
     
-public:
     Cilindro(Ponto CB, float rbCil, float altura, Vetor dcil, Propriedades prop, int m, 
              bool temBase = true, bool temTopo = true);
     

@@ -46,3 +46,50 @@ Bandeira::Bandeira(Ponto baseHaste, float alturaHaste, int m)
 
     this->m = m; 
 }
+
+void Bandeira::transforma(const Matriz4x4& M) {
+    this->baseHaste = M * this->baseHaste;
+
+    ObjetoComplexo::transforma(M); 
+}
+
+void Bandeira::transladar(float tx, float ty, float tz) {
+    Matriz4x4 T = Transformacao::translacao(tx, ty, tz);
+    this->transforma(T);
+}
+
+void Bandeira::escalar(float s) {
+    Matriz4x4 S = Transformacao::escala(s, s, s, baseHaste);
+    this->transforma(S);
+}
+
+void Bandeira::rotacionarX(float anguloGraus) {
+    ObjetoComplexo::rotacionarX(anguloGraus, baseHaste);
+}
+
+void Bandeira::rotacionarY(float anguloGraus) {
+    ObjetoComplexo::rotacionarY(anguloGraus, baseHaste);
+}
+
+void Bandeira::rotacionarZ(float anguloGraus) {
+    ObjetoComplexo::rotacionarZ(anguloGraus, baseHaste);
+}
+
+void Bandeira::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus) {
+    ObjetoComplexo::rotacionarEmEixoArbitrario(eixo, anguloGraus, baseHaste);
+}
+
+void Bandeira::espelharXY() {
+    Matriz4x4 M = Transformacao::espelhamentoXY();
+    this->transforma(M);
+}
+
+void Bandeira::espelharXZ() {
+    Matriz4x4 M = Transformacao::espelhamentoXZ();
+    this->transforma(M);
+}
+
+void Bandeira::espelharYZ() {
+    Matriz4x4 M = Transformacao::espelhamentoYZ();
+    this->transforma(M);
+}

@@ -79,6 +79,68 @@ Cor SemiEsfera::getCorTextura(const Ponto& ponto) const {
 // ========== TRANSFORMACÕES ==========
 
 void SemiEsfera::transforma(const Matriz4x4& M) {
+    Ponto p0(0, 0, 0);
+    Ponto p1(1, 0, 0);
+    Ponto p0_t = M * p0;
+    Ponto p1_t = M * p1;
+    
+    float s = comprimento(p1_t - p0_t);
+
+    if (std::abs(s - 1.0f) > 1e-5f) {
+        raio *= s;
+    }
+
     centro = M * centro;
+
     direcao = normalizar(M * direcao);
+}
+
+void SemiEsfera::transladar(float tx, float ty, float tz) {
+    transforma(Transformacao::translacao(tx, ty, tz));
+}
+
+void SemiEsfera::escalar(float s, Ponto ponto_fixo) {
+    Matriz4x4 S = Transformacao::escala(s, s, s, ponto_fixo);
+    this->centro = S * this->centro;
+    this->raio *= s;
+}
+
+void SemiEsfera::rotacionarX(float anguloGraus) {
+    float rad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R  = Transformacao::rotacaoX(rad);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    transforma(T2 * R * T1);
+}
+
+void SemiEsfera::rotacionarY(float anguloGraus) {
+    float rad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R  = Transformacao::rotacaoY(rad);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    transforma(T2 * R * T1);
+}
+
+void SemiEsfera::rotacionarZ(float anguloGraus) {
+    float rad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 T1 = Transformacao::translacao(-centro.x, -centro.y, -centro.z);
+    Matriz4x4 R  = Transformacao::rotacaoZ(rad);
+    Matriz4x4 T2 = Transformacao::translacao(centro.x, centro.y, centro.z);
+    transforma(T2 * R * T1);
+}
+
+void SemiEsfera::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto) {
+    float rad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, rad, ponto);
+    transforma(R);
+}
+
+void SemiEsfera::espelharXY() { 
+    transforma(Transformacao::espelhamentoXY()); 
+}
+void SemiEsfera::espelharXZ() { 
+    transforma(Transformacao::espelhamentoXZ()); 
+}
+void SemiEsfera::espelharYZ() { 
+    transforma(Transformacao::espelhamentoYZ()); 
 }

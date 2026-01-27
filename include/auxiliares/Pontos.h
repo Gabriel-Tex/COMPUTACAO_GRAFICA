@@ -13,4 +13,6 @@ public:
 
 // ============== MÉTODOS ASSOCIADOS A PONTOS ==============
 
+Ponto operator+(const Ponto &PF, const Ponto &PI);
+Ponto operator*(const Ponto &PF, const float &n);
 #endif

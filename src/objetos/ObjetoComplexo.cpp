@@ -117,3 +117,52 @@ void ObjetoComplexo::rotacionarZ(float anguloGraus, Ponto ponto_fixo) {
     Matriz4x4 T2 = Transformacao::translacao(ponto_fixo.x, ponto_fixo.y, ponto_fixo.z);
     transforma(T2 * R * T1);
 }
+
+void ObjetoComplexo::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto_fixo) {
+    float rad = Transformacao::grausParaRadianos(anguloGraus);
+    
+    Matriz4x4 M = Transformacao::rotacaoEixoArbitrarioPonto(eixo, rad, ponto_fixo);
+    transforma(M);
+}
+
+void ObjetoComplexo::cisalharX_XZ(float anguloGraus, Ponto ponto_fixo) {
+    float rad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 T1 = Transformacao::translacao(-ponto_fixo.x, -ponto_fixo.y, -ponto_fixo.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoX_XZ(rad);
+    Matriz4x4 T2 = Transformacao::translacao(ponto_fixo.x, ponto_fixo.y, ponto_fixo.z);
+    transforma(T2 * C * T1);
+}
+
+void ObjetoComplexo::cisalharY_XZ(float anguloGraus, Ponto ponto_fixo) {
+    float rad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 T1 = Transformacao::translacao(-ponto_fixo.x, -ponto_fixo.y, -ponto_fixo.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoY_XZ(rad);
+    Matriz4x4 T2 = Transformacao::translacao(ponto_fixo.x, ponto_fixo.y, ponto_fixo.z);
+    transforma(T2 * C * T1);
+}
+
+void ObjetoComplexo::cisalharY_XY(float anguloGraus, Ponto ponto_fixo) {
+    float rad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 T1 = Transformacao::translacao(-ponto_fixo.x, -ponto_fixo.y, -ponto_fixo.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoY_XY(rad);
+    Matriz4x4 T2 = Transformacao::translacao(ponto_fixo.x, ponto_fixo.y, ponto_fixo.z);
+    transforma(T2 * C * T1);
+}
+
+void ObjetoComplexo::cisalharZ_XY(float anguloGraus, Ponto ponto_fixo) {
+    float rad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 T1 = Transformacao::translacao(-ponto_fixo.x, -ponto_fixo.y, -ponto_fixo.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoZ_XY(rad);
+    Matriz4x4 T2 = Transformacao::translacao(ponto_fixo.x, ponto_fixo.y, ponto_fixo.z);
+    transforma(T2 * C * T1);
+}
+
+void ObjetoComplexo::espelharXY() { 
+    transforma(Transformacao::espelhamentoXY()); 
+}
+void ObjetoComplexo::espelharXZ() { 
+    transforma(Transformacao::espelhamentoXZ()); 
+}
+void ObjetoComplexo::espelharYZ() { 
+    transforma(Transformacao::espelhamentoYZ()); 
+}

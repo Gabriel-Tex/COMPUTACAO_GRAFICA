@@ -35,7 +35,6 @@ public:
     Vetor getNormal() const { return n; }
     
     Cor getCorTexturaPt(const Ponto& Pt) const;
-    Cor amostrarTexturaCustom(float u, float v) const;
 
     void transforma(const Matriz4x4& M);
     void transladar(float tx, float ty, float tz);

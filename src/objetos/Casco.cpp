@@ -45,3 +45,51 @@ Casco::Casco(Ponto centroBase, float raioCasco, int m)
 
     this->m = m;
 }
+
+
+void Casco::transforma(const Matriz4x4& M) {
+    this->centroBase = M * this->centroBase;
+    
+    ObjetoComplexo::transforma(M);
+}
+
+void Casco::transladar(float tx, float ty, float tz) {
+    Matriz4x4 T = Transformacao::translacao(tx, ty, tz);
+    this->transforma(T);
+}
+
+void Casco::escalar(float s) {
+    Matriz4x4 M = Transformacao::escala(s, s, s, centroBase);
+    this->transforma(M);
+}
+
+void Casco::rotacionarX(float anguloGraus) {
+    ObjetoComplexo::rotacionarX(anguloGraus, centroBase);
+}
+
+void Casco::rotacionarY(float anguloGraus) {
+    ObjetoComplexo::rotacionarY(anguloGraus, centroBase);
+}
+
+void Casco::rotacionarZ(float anguloGraus) {
+    ObjetoComplexo::rotacionarZ(anguloGraus, centroBase);
+}
+
+void Casco::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus) {
+    ObjetoComplexo::rotacionarEmEixoArbitrario(eixo, anguloGraus, centroBase);
+}
+
+void Casco::espelharXY() {
+    Matriz4x4 M = Transformacao::espelhamentoXY();
+    this->transforma(M);
+}
+
+void Casco::espelharXZ() {
+    Matriz4x4 M = Transformacao::espelhamentoXZ();
+    this->transforma(M);
+}
+
+void Casco::espelharYZ() {
+    Matriz4x4 M = Transformacao::espelhamentoYZ();
+    this->transforma(M);
+}

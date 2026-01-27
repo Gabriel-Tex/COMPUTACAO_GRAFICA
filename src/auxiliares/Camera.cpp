@@ -142,9 +142,31 @@ void Camera::mover(const Vetor& deslocamento) {
     atualizarSistemaCoordenadas();
 }
 
-void Camera::moverFrente(float distancia) { mover(frente * distancia); }
-void Camera::moverDireita(float distancia) { mover(direita * distancia); }
-void Camera::moverCima(float distancia) { mover(acima * distancia); }
+void Camera::moverFrente(float distancia) { 
+    mover(frente * distancia); 
+}
+void Camera::moverDireita(float distancia) { 
+    mover(direita * distancia); 
+}
+void Camera::moverCima(float distancia) { 
+    mover(acima * distancia); 
+}
+
+void Camera::moverComAtPointFixo(const Vetor& deslocamento) {
+    eye = eye + deslocamento;
+
+    atualizarSistemaCoordenadas();
+}
+
+void Camera::moverFrenteComAtPointFixo(float distancia) { 
+    moverComAtPointFixo(frente * distancia); 
+}
+void Camera::moverDireitaComAtPointFixo(float distancia) { 
+    moverComAtPointFixo(direita * distancia); 
+}
+void Camera::moverCimaComAtPointFixo(float distancia) { 
+    moverComAtPointFixo(acima * distancia); 
+}
 
 void Camera::rotacionarEmY(float anguloGraus) {
     Vetor eixoY(0, 1, 0);

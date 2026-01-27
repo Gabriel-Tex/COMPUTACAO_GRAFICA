@@ -2,6 +2,8 @@
 
 Cogumelo::Cogumelo(Ponto centroConexao, float raioCaule, float raioChapeu, int m) {
     
+    this->centroBase = centroConexao;
+
     Propriedades propBege(
         Cor(0.9f, 0.8f, 0.6f), 
         Cor(0.2f, 0.2f, 0.2f), 
@@ -36,4 +38,52 @@ Cogumelo::Cogumelo(Ponto centroConexao, float raioCaule, float raioChapeu, int m
 
     this->props = propVermelho;
     this->m = m;
+}
+
+void Cogumelo::transforma(const Matriz4x4& M) {
+    this->centroBase = M * this->centroBase;
+    
+    ObjetoComplexo::transforma(M);
+}
+
+void Cogumelo::transladar(float tx, float ty, float tz) {
+    Matriz4x4 T = Transformacao::translacao(tx, ty, tz);
+
+    this->transforma(T);
+}
+
+void Cogumelo::escalar(float s) {
+    Matriz4x4 M = Transformacao::escala(s, s, s, centroBase);
+    this->transforma(M);
+}
+
+void Cogumelo::rotacionarX(float anguloGraus) {
+    ObjetoComplexo::rotacionarX(anguloGraus, centroBase);
+}
+
+void Cogumelo::rotacionarY(float anguloGraus) {
+    ObjetoComplexo::rotacionarY(anguloGraus, centroBase);
+}
+
+void Cogumelo::rotacionarZ(float anguloGraus) {
+    ObjetoComplexo::rotacionarZ(anguloGraus, centroBase);
+}
+
+void Cogumelo::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus) {
+    ObjetoComplexo::rotacionarEmEixoArbitrario(eixo, anguloGraus, centroBase);
+}
+
+void Cogumelo::espelharXY() {
+    Matriz4x4 M = Transformacao::espelhamentoXY();
+    this->transforma(M);
+}
+
+void Cogumelo::espelharXZ() {
+    Matriz4x4 M = Transformacao::espelhamentoXZ();
+    this->transforma(M);
+}
+
+void Cogumelo::espelharYZ() {
+    Matriz4x4 M = Transformacao::espelhamentoYZ();
+    this->transforma(M);
 }

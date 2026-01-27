@@ -120,6 +120,55 @@ void Paralelepipedo::rotacionarZ(float anguloGraus) {
 }
 
 void Paralelepipedo::rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto) {
-    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloGraus, ponto);
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Matriz4x4 R = Transformacao::rotacaoEixoArbitrarioPonto(eixo, anguloRad, ponto);
     transforma(R);
+}
+
+void Paralelepipedo::cisalharX_XZ(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto c = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-c.x, -c.y, -c.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoX_XZ(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(c.x, c.y, c.z);
+    transforma(T2 * C * T1);
+}
+
+void Paralelepipedo::cisalharY_XZ(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto c = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-c.x, -c.y, -c.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoY_XZ(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(c.x, c.y, c.z);
+    transforma(T2 * C * T1);
+}
+
+void Paralelepipedo::cisalharY_XY(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto c = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-c.x, -c.y, -c.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoY_XY(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(c.x, c.y, c.z);
+    transforma(T2 * C * T1);
+}
+
+void Paralelepipedo::cisalharZ_XY(float anguloGraus) {
+    float anguloRad = Transformacao::grausParaRadianos(anguloGraus);
+    Ponto c = getCentro();
+    Matriz4x4 T1 = Transformacao::translacao(-c.x, -c.y, -c.z);
+    Matriz4x4 C  = Transformacao::cisalhamentoZ_XY(anguloRad);
+    Matriz4x4 T2 = Transformacao::translacao(c.x, c.y, c.z);
+    transforma(T2 * C * T1);
+}
+
+void Paralelepipedo::espelharXY() {
+    transforma(Transformacao::espelhamentoXY());
+}
+
+void Paralelepipedo::espelharXZ() {
+    transforma(Transformacao::espelhamentoXZ());
+}
+
+void Paralelepipedo::espelharYZ() {
+    transforma(Transformacao::espelhamentoYZ());
 }

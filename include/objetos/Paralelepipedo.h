@@ -46,6 +46,15 @@ public:
     void rotacionarZ(float anguloGraus);
     void rotacionarEmEixoArbitrario(const Vetor& eixo, float anguloGraus, Ponto ponto);
 
+    void cisalharX_XZ(float anguloGraus);
+    void cisalharY_XZ(float anguloGraus);
+    void cisalharY_XY(float anguloGraus);
+    void cisalharZ_XY(float anguloGraus);
+
+    void espelharXY();
+    void espelharXZ();
+    void espelharYZ();
+
 };
 
 #endif
