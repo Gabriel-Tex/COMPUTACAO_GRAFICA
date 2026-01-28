@@ -121,7 +121,6 @@ Matriz4x4 Transformacao::escala(float sx, float sy, float sz, Ponto ponto_fixo) 
 // Cisalhamento
 Matriz4x4 Transformacao::cisalhamentoX_XZ(float angulo) {
     
-    
     Matriz4x4 C;
     C.m[0][1] = tan(angulo);
     return C;

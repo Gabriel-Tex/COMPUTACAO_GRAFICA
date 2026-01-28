@@ -40,12 +40,14 @@ int main() {
     Camera camera;
     
     Ponto eye(250.0f, 250.0f, 0.0f);
-    Ponto atpoint(CENARIO_CENTRO_X, CENARIO_CENTRO_Y * 0.3f, CENARIO_CENTRO_Z);  // Olhando para a árvore
+    Ponto atpoint(CENARIO_CENTRO_X, CENARIO_CENTRO_Y * 0.3f, CENARIO_CENTRO_Z); 
     Vetor uppoint(0.0f, 1.0f, 0.0f);
     
     camera.lookAt(eye, atpoint, uppoint);
     camera.setJanela(janela);
     camera.setDistanciaFocal(30.0f);
+
+   
     // =========== CANVAS ===========
     Canvas canvas(500, 500);
 

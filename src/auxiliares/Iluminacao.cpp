@@ -44,13 +44,17 @@ Cor CorResultante(Ponto Pt, Vetor n, Ray ray, Propriedades prop,
     Cor IF = iluminacao.intensidade_da_fonte;
 
     if (iluminacao.tipo == DIRECIONAL) {
+        // l = -df
         l = normalizar(iluminacao.direcao_da_fonte * -1.0f);
     } 
     else { 
         l = normalizar(iluminacao.ponto_da_fonte - Pt);
         
         if (iluminacao.tipo == SPOT) {
+            // ângulo entre df e l
             float cos_ponto = produto_escalar(l * -1.0f, normalizar(iluminacao.direcao_da_fonte));
+            // verifica se o cos de alfa é menor que o cos de theta. Se sim, alfa está
+        // fora de teta (alfa maior que teta)
             if (cos_ponto < iluminacao.cos_theta) {
                 IF = Cor(0, 0, 0); 
             }

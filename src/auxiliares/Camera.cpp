@@ -84,7 +84,7 @@ Ray Camera::gerarRaio(float u, float v) const {
     else { 
         float alpha = 45.0f * M_PI / 180.0f; 
         
-        //  (f = 1.0 para Cavalier, f = 0.5 para Cabinet)
+        //  (f = 1.0 para Cavalier, f = 0.5 para Cabinet)   
         float f = 0.5f; 
 
         Vetor direcaoLocal(f * cos(alpha), f * sin(alpha), -1.0f);
@@ -197,6 +197,4 @@ void Camera::rotacionarEmZ(float anguloGraus) {
 
 void Camera::zoom(float fator) {
     distanciaFocal *= fator;
-    janela.wJ *= fator;
-    janela.hJ *= fator;
 }
