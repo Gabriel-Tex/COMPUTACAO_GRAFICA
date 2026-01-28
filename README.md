@@ -10,10 +10,10 @@
 
 ## Cenário
 
-![Cenário] (TrabalhoFinal/imagens/CenarioImg03.png)
+![Cenário](TrabalhoFinal/imagens/CenarioImg03.png)
 
-![Cenário] (TrabalhoFinal/imagens/CenarioImg04.png)
+![Cenário](TrabalhoFinal/imagens/CenarioImg04.png)
 
-![Cenário] (TrabalhoFinal/imagens/CenarioImg01.png)
+![Cenário](TrabalhoFinal/imagens/CenarioImg01.png)
 
-![Cenário] (TrabalhoFinal/imagens/CenarioImg02.png)
+![Cenário](TrabalhoFinal/imagens/CenarioImg02.png)

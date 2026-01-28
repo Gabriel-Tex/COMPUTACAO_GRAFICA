@@ -252,7 +252,7 @@ int main() {
     planoChao.setTextura(&texturaChao);
     objetos.push_back(&planoChao);
     
-    //iluminacao.setDirecional(Vetor(1, -1, 1), Cor(0.8, 0.8, 0.8));
+    iluminacao.setDirecional(Vetor(1, -1, 1), Cor(0.8, 0.8, 0.8));
     // =========== RENDERIZAÇÃO ===========
     vector<vector<Cor>> canvasArray(canvas.nLin, vector<Cor>(canvas.nCol, canvas.bgColor));
     
