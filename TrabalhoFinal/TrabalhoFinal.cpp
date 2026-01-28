@@ -252,59 +252,7 @@ int main() {
     planoChao.setTextura(&texturaChao);
     objetos.push_back(&planoChao);
     
-    Plano planoDireita (
-        Ponto(CENARIO_TAMANHO, CENARIO_CENTRO_Y, CENARIO_CENTRO_Z),
-        Vetor(-1, 0, 0),  
-        Propriedades(
-            Cor(0.9f, 0.9f, 0.95f),  
-            Cor(0.9f, 0.9f, 0.95f),
-            Cor(0.9f, 0.9f, 0.95f)
-        ),
-        1
-    );
-    planoDireita.setTextura(&ceuTextura01);
-    //objetos.push_back(&planoDireita);
-    
-    Plano planoTraseira(
-        Ponto(CENARIO_CENTRO_X, CENARIO_CENTRO_Y, CENARIO_TAMANHO),
-        Vetor(0, 0, -1),  
-        Propriedades(
-            Cor(0.95f, 0.9f, 0.9f),  
-            Cor(0.95f, 0.9f, 0.9f),
-            Cor(0.95f, 0.9f, 0.9f)
-        ),
-        1 
-    );
-    planoTraseira.setTextura(&ceuTextura01);
-    //objetos.push_back(&planoTraseira);
-    
-    Plano planoEsquerda (
-        Ponto(0.0f, CENARIO_CENTRO_Y, CENARIO_CENTRO_Z),
-        Vetor(1, 0, 0),  
-        Propriedades(
-            Cor(0.9f, 0.95f, 0.9f),  
-            Cor(0.9f, 0.95f, 0.9f),
-            Cor(0.9f, 0.95f, 0.9f)
-        ),
-        1
-    );
-    planoEsquerda.setTextura(&ceuTextura01);
-    //objetos.push_back(&planoEsquerda);
-    
-    Plano planoTeto(
-        Ponto(CENARIO_CENTRO_X, CENARIO_TAMANHO, CENARIO_CENTRO_Z),
-        Vetor(0, -1, 0),  
-        Propriedades(
-            Cor(1.0f, 1.0f, 1.0f),  
-            Cor(1.0f, 1.0f, 1.0f),
-            Cor(1.0f, 1.0f, 1.0f)
-        ),
-        1
-    );
-    planoTeto.setTextura(&ceuTextura02);
-    //objetos.push_back(&planoTeto);
-    
-    iluminacao.setDirecional(Vetor(1, -1, 1), Cor(0.8, 0.8, 0.8));
+    //iluminacao.setDirecional(Vetor(1, -1, 1), Cor(0.8, 0.8, 0.8));
     // =========== RENDERIZAÇÃO ===========
     vector<vector<Cor>> canvasArray(canvas.nLin, vector<Cor>(canvas.nCol, canvas.bgColor));
     
