@@ -63,16 +63,6 @@ int main() {
         cout << "Erro ao carregar textura" << endl;
     }
 
-    Textura ceuTextura01;
-    if (!ceuTextura01.carregar("assets/ceuTextura01ComMontranha.png")) {
-        cout << "Erro ao carregar textura" << endl;
-    }
-
-    Textura ceuTextura02;
-    if (!ceuTextura02.carregar("assets/ceuTextura01.jpg")) {
-        cout << "Erro ao carregar textura" << endl;
-    }
-
     Textura gramaTextura01;
     if (!gramaTextura01.carregar("assets/gramaTextura01.jpg")) {
         cout << "Erro ao carregar textura" << endl;
